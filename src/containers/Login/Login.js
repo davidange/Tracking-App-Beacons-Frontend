@@ -23,14 +23,7 @@ class login extends Component {
         {token: 'abc'}
       }
 
-/*
-      componentDidMount() {
-        // Simple POST request with a JSON body using axios
-        const article = { title: 'React POST Request Example' };
-        axios.post('https://reqres.in/api/articles', article)
-            .then(response => this.setState({ articleId: response.data.id }));
-    }
-*/
+
 
 
 
