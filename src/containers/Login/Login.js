@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { findAllInRenderedTree } from 'react-dom/test-utils';
+//import { findAllInRenderedTree } from 'react-dom/test-utils';
 import classes from './Login.module.css';
 import axios from 'axios';
 
@@ -26,6 +26,20 @@ class login extends Component {
 
 
 
+    componentDidUpdate () {
+
+      const post = {
+        email: this.state.Email.email,
+        password: this.state.Password.password,
+  
+      }
+  
+      axios.post('/user/login', post).then(res => { this.setState({ AccessToken: { token: res.data.token } }) });
+      //then(res => {console.log(res.data)})
+      //then(res => {this.setState({AccessToken:{token: res.data.token}})});
+
+    }
+
 
   LoginClick = () => {
 
@@ -45,18 +59,20 @@ class login extends Component {
 
 
 
-    const post = {
-      email: this.state.Email.email,
-      password: this.state.Password.password,
+    
 
-    }
+    const queryParams = [];
 
-    axios.post('/user/login', post).then(res => {this.setState({AccessToken:{token: res.data.token}})});
-    //then(res => {console.log(res.data)})
-    //then(res => {this.setState({AccessToken:{token: res.data.token}})});
+    queryParams.push(encodeURIComponent('token')+'='+encodeURIComponent(this.state.AccessToken.token));
+    
+    
+    const queryString = queryParams.join('&');
 
-
-    this.props.history.push('/Projects');
+    this.props.history.push({
+      pathname: '/Projects',
+      search: '?'+queryString
+    });
+   
 
 
   };
