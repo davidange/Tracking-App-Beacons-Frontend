@@ -29,8 +29,6 @@ class login extends Component {
 
   LoginClick = () => {
 
-    this.props.history.push('/Projects');
-
     // alert("LB was clicked")
     /*
    const post = {
@@ -40,16 +38,26 @@ class login extends Component {
 
    }
 
-    axios.post('https://api-stage.bimplus.net/v2/authorize',post).then(res => {this.setState({AccessToken:{token: res.data.access_token}})});
-/*
+    axios.post('https://api-stage.bimplus.net/v2/authorize',post).then(res => {console.log(res)});
+
+    //.then(res => {this.setState({AccessToken:{token: res.data.access_token}})});
+*/
+
+
+
     const post = {
       email: this.state.Email.email,
       password: this.state.Password.password,
 
     }
 
-    axios.post('https://tracking-bimplus-beacon.herokuapp.comuser/login', post).then(res => { console.log(res) });
-*/
+    axios.post('/user/login', post).then(res => {this.setState({AccessToken:{token: res.data.token}})});
+    //then(res => {console.log(res.data)})
+    //then(res => {this.setState({AccessToken:{token: res.data.token}})});
+
+
+    this.props.history.push('/Projects');
+
 
   };
 
