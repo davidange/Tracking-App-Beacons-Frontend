@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import classes from './Projects.module.css';
+import axios from 'axios';
+
 
 class Projects extends Component {
 
@@ -12,6 +14,8 @@ class Projects extends Component {
 
       componentDidMount () {
 
+        console.log("Login successful!");
+
         const query = new URLSearchParams(this.props.location.search);
         const AccessToken ={};
         for (let param of query.entries()){
@@ -20,13 +24,33 @@ class Projects extends Component {
 
         }
         this.setState({AccessToken: AccessToken});
+      
+
+
+
       }
+
+      componentDidUpdate () {
+
+        const get = {
+            Authorization: 'TrackingAPI '+this.state.AccessToken.token
+          }
+
+        //console.log(this.state.AccessToken.token);    
+        axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {console.log(res)});
+
+      }
+
+
+
 
 
 
 render (){ 
     return(
-        <div className={classes.Projects}> New Page!
+        <div className={classes.Projects}>
+            <h1>New Page!</h1>
+            <h2>More to come soon!</h2>
         </div>
     )
 }
