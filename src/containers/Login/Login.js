@@ -74,6 +74,8 @@ class login extends Component {
       pathname: '/Projects',
       search: '?'+queryString
     });
+
+  
   }
 
   else{
@@ -87,8 +89,12 @@ class login extends Component {
 
 
   SignupClick = () => {
-    alert("SH was clicked")
+    this.props.history.push({
+      pathname: '/Signup'
+    });
   };
+
+
 
   EmailChangedHandler = (event) => {
     this.setState({

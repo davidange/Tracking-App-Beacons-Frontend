@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Layout from './components/Layout/Layout';
 import LoginScreen from './containers/Login/Login';
 import Projects from './containers/Projectpage/Projects';
+import Signup from './containers/Signuppage/Signup';
 import {Route, Switch} from 'react-router-dom';
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
       <Layout>
         <Switch>
        <Route path="/Projects" component={Projects}></Route>
+       <Route path="/Signup" exact component={Signup}></Route>
        <Route path="/" exact component={LoginScreen}></Route>
        </Switch>
       </Layout>
