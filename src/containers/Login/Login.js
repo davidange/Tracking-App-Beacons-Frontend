@@ -20,7 +20,9 @@ class login extends Component {
     Password:
       { password: 'Password' },
     AccessToken:
-      { token: 'abc' }
+      { token: 'abc' },
+      Status:
+      {status: 1}
   }
 
 
@@ -34,7 +36,7 @@ class login extends Component {
   
       }
   
-      axios.post('/user/login', post).then(res => { this.setState({ AccessToken: { token: res.data.token } }) });
+      axios.post('/user/login', post).then(res => {this.setState({ AccessToken: { token: res.data.token } }); this.setState({Status: {status: res.status}}) });
       //then(res => {console.log(res.data)})
       //then(res => {this.setState({AccessToken:{token: res.data.token}})});
 
@@ -59,8 +61,8 @@ class login extends Component {
 
 
 
-    
-
+    if (this.state.Status.status==200)
+{
     const queryParams = [];
 
     queryParams.push(encodeURIComponent('token')+'='+encodeURIComponent(this.state.AccessToken.token));
@@ -72,7 +74,11 @@ class login extends Component {
       pathname: '/Projects',
       search: '?'+queryString
     });
-   
+  }
+
+  else{
+    alert("Login failed!");
+  }
 
 
   };
