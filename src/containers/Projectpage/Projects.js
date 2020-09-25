@@ -8,11 +8,15 @@ class Projects extends Component {
 
     state = {
         AccessToken:
-          { token: 'abc' }
+          { token: 'abc' },
+        data: 
+          [{name: 'hello'},
+           {name: 'world'}]
       }
 
 
       componentDidMount () {
+
 
         console.log("Login successful!");
 
@@ -26,10 +30,11 @@ class Projects extends Component {
         this.setState({AccessToken: AccessToken});
       
 
+        axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {console.log(res); console.log(this.state.AccessToken.token); this.setState({data: res.data}); console.log(this.state.data)});
 
 
       }
-
+/*
       componentDidUpdate () {
 
         const get = {
@@ -40,6 +45,7 @@ class Projects extends Component {
         axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {console.log(res)});
 
       }
+*/
 
 
 
@@ -51,13 +57,15 @@ render (){
         <div className={classes.Projects}>
             <h1>New Page!</h1>
             <h2>More to come soon!</h2>
+            <p>{this.state.data[0].title}</p>
         </div>
     )
 }
 
 }
 
-//<p >{this.state.AccessToken.token}</p>
+//<p >{this.state.AccessToken.token}</p>                <p>{this.state.data[0].name}</p>
+
 
 
 
