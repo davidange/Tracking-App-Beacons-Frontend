@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './Projects.module.css';
 import axios from 'axios';
+import Projectbox from '../../components/Projectpage/Projectbox';
 
 
 class Projects extends Component {
@@ -51,13 +52,23 @@ class Projects extends Component {
 
 
 
-
 render (){ 
+
+  let pbox = (
+
+    <div>
+      {this.state.data.map(props => {
+
+        return <Projectbox title={props.title}/>
+      })}
+    </div>
+
+  );
+
+
     return(
         <div className={classes.Projects}>
-            <h1>New Page!</h1>
-            <h2>More to come soon!</h2>
-            <p>{this.state.data[0].title}</p>
+          {pbox}
         </div>
     )
 }
