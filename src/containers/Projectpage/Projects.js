@@ -11,8 +11,7 @@ class Projects extends Component {
         AccessToken:
           { token: 'abc' },
         data: 
-          [{name: 'hello'},
-           {name: 'world'}]
+          []
       }
 
 
@@ -48,8 +47,11 @@ class Projects extends Component {
       }
 */
 
+ProjectClick = () =>{
 
+  alert("was clicked!");
 
+}
 
 
 render (){ 
@@ -59,7 +61,7 @@ render (){
     <div>
       {this.state.data.map(props => {
 
-        return <Projectbox title={props.title}/>
+        return <Projectbox title={props.title} click={this.ProjectClick}/>
       })}
     </div>
 

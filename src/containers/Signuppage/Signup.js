@@ -92,7 +92,7 @@ render (){
             <input type="text" value={this.state.Email.email} onChange={this.EmailChangedHandler}></input>
             <input type="password" value={this.state.Password.password} onChange={this.PasswordChangedHandler}></input>
             <input type="password" value={this.state.repeatedPassword.repeatedPassword} onChange={this.RPasswordChangedHandler}></input>
-            <button onClick={this.SignupClick}>Signup</button>
+            <button className={classes.SignupButton} onClick={this.SignupClick}>Signup</button>
         </div>
     )
 }

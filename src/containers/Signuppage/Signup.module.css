@@ -14,3 +14,7 @@
 
     color: black;
 }
+
+.SignupButton:hover{
+    cursor: pointer;
+}

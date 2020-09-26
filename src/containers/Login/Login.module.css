@@ -17,3 +17,12 @@
     text-decoration: underline;
     color: black
 }
+
+.Signup:hover{
+
+    cursor: pointer;
+}
+
+.LoginButton:hover{
+    cursor: pointer;
+}

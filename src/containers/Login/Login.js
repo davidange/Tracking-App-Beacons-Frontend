@@ -116,7 +116,7 @@ class login extends Component {
         Login
         <input type="text" value={this.state.Email.email} onChange={this.EmailChangedHandler}></input>
         <input type="password" value={this.state.Password.password} onChange={this.PasswordChangedHandler}></input>
-        <button onClick={this.LoginClick}>Login</button>
+        <button className={classes.LoginButton} onClick={this.LoginClick}>Login</button>
         <p className={classes.Signup} onClick={this.SignupClick}>Signup</p>
       </div>
     );
