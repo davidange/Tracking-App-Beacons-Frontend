@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './Model.module.css';
 import axios from 'axios';
+import ModelViewer from 'react-3d-model-viewer';
 
 
 class Model extends Component {
@@ -55,6 +56,7 @@ render (){
         <div className={classes.Model}>
             <h1>{this.state.AccessToken.token}</h1>
             <h1>{this.state.chosenModel.title}</h1>
+            <ModelViewer></ModelViewer>
         </div>
     )
 }

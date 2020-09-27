@@ -19,6 +19,21 @@ class Projects extends Component {
 
       componentDidMount () {
 
+/*
+        const post = {
+          email: this.state.Email.email,
+          password: this.state.Password.password,
+    
+        }
+    
+        axios.post('/user/login', post).then(res => {this.setState({ AccessToken: { token: res.data.token } }); this.setState({Status: {status: res.status}}) });
+        //then(res => {console.log(res.data)})
+        //then(res => {this.setState({AccessToken:{token: res.data.token}})});
+
+*/
+
+
+
 
         console.log("Login successful!");
 
@@ -31,7 +46,7 @@ class Projects extends Component {
         }
         this.setState({AccessToken: AccessToken});
       
-
+        //get list of projects
         axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {console.log(res); console.log(this.state.AccessToken.token); this.setState({data: res.data}); console.log(this.state.data)});
 
 

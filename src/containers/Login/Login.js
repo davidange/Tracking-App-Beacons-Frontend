@@ -46,7 +46,7 @@ class login extends Component {
   LoginClick = () => {
 
     // alert("LB was clicked")
-    /*
+    
    const post = {
      user_id: this.state.Email.email,
      password: this.state.Password.password,
@@ -57,7 +57,7 @@ class login extends Component {
     axios.post('https://api-stage.bimplus.net/v2/authorize',post).then(res => {console.log(res)});
 
     //.then(res => {this.setState({AccessToken:{token: res.data.access_token}})});
-*/
+
 
 
 
