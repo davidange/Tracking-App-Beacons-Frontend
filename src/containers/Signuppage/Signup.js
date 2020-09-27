@@ -3,7 +3,7 @@ import classes from './Signup.module.css';
 import axios from 'axios';
 
 
-class Projects extends Component {
+class Signup extends Component {
 
 
     state = {
@@ -103,4 +103,4 @@ render (){
 
 
 
-export default Projects;
+export default Signup;

@@ -11,7 +11,9 @@ class Projects extends Component {
         AccessToken:
           { token: 'abc' },
         data: 
-          []
+          [],
+        chosenModel:  
+          {title: 'def'}
       }
 
 
@@ -47,10 +49,29 @@ class Projects extends Component {
       }
 */
 
-ProjectClick = () =>{
+ProjectClick = (index) =>{
 
-  alert("was clicked!");
+ //updating chosenModel in state with the clicked model
+ this.state.chosenModel.title = this.state.data[index].title;
+ console.log(this.state.chosenModel.title);
 
+
+
+  const queryParams = [];
+
+  queryParams.push(encodeURIComponent('token')+'='+encodeURIComponent(this.state.AccessToken.token));
+  queryParams.push(encodeURIComponent('title')+'='+encodeURIComponent(this.state.chosenModel.title));
+
+  
+  
+  const queryString = queryParams.join('&');
+
+  this.props.history.push({
+    pathname: '/Model',
+    search: '?'+queryString
+  });
+  //Title weitergeben
+  
 }
 
 
@@ -59,9 +80,9 @@ render (){
   let pbox = (
 
     <div>
-      {this.state.data.map(props => {
+      {this.state.data.map((props,index) => {
 
-        return <Projectbox title={props.title} click={this.ProjectClick}/>
+        return <Projectbox title={props.title} click={() => this.ProjectClick(index)}/>
       })}
     </div>
 
