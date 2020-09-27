@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useRef, useState } from 'react';
-import axios from 'axios';
-import ModelViewer from 'react-3d-model-viewer';
-import {Canvas, useFrame} from 'react-three-fiber';
-import {softShadows, MeshWobbleMaterial} from "drei";
+import { useFrame} from 'react-three-fiber';
+import { MeshWobbleMaterial} from "drei";
 import { useSpring, a } from 'react-spring/three';
 
 

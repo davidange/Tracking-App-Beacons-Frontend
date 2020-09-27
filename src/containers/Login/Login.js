@@ -46,7 +46,7 @@ class login extends Component {
   LoginClick = () => {
 
     // alert("LB was clicked")
-    
+    /*
    const post = {
      user_id: this.state.Email.email,
      password: this.state.Password.password,
@@ -58,7 +58,7 @@ class login extends Component {
 
     //.then(res => {this.setState({AccessToken:{token: res.data.access_token}})});
 
-
+*/
 
 
     if (this.state.Status.status==200)

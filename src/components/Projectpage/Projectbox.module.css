@@ -12,3 +12,8 @@
     cursor: pointer;
     background-color: #FAEBD7;
 }
+
+.Title:hover{
+
+    text-decoration: underline;
+}

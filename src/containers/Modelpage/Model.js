@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { useRef, useState } from 'react';
 import classes from './Model.module.css';
-import axios from 'axios';
-import ModelViewer from 'react-3d-model-viewer';
-import {Canvas, useFrame} from 'react-three-fiber';
+import {Canvas} from 'react-three-fiber';
 import Box from '../../components/Modelpage/Box';
-import {softShadows, MeshWobbleMaterial, OrbitControls} from "drei";
-import {useSpring, a} from 'react-spring/three';
+import {softShadows, OrbitControls} from "drei";
 
 /*
 const Box = () => {
