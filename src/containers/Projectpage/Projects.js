@@ -69,8 +69,8 @@ class Projects extends Component {
    
            const header = {Authorization: 'TrackingAPI '+ this.state.AccessToken.token};
            console.log({header});
-           axios.get('/projects',header).then(res => {
-             console.log(res); 
+           axios.get('/projects',{header}).then(res => {
+             console.log(res)
            });
    
 
@@ -130,6 +130,7 @@ class Projects extends Component {
       <div className={classes.Projects}>
         {pbox}
       </div>
+
     )
   }
 
