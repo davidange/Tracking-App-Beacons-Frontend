@@ -1,18 +1,13 @@
-import React from 'react';
-import classes from './Projectbox.module.css';
-
-
-
+import React from "react";
+import classes from "./Projectbox.module.css";
 
 const Projectbox = (props) => {
-    return (
+  return (
     <div className={classes.Projectbox} onClick={props.click}>
-        <p className={classes.Title}>{props.title}</p>
+      <h3 className={classes.Title}>{props.title}</h3>
+      <p className={classes.Teamname}>{props.team}</p>
     </div>
-    )
-
-
-}
-
+  );
+};
 
 export default Projectbox;

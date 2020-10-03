@@ -3,7 +3,6 @@ import classes from "./Model.module.css";
 import { Canvas } from "react-three-fiber";
 import Box from "../../components/Modelpage/Box";
 import { softShadows, OrbitControls } from "drei";
-import Sidebar from "react-sidebar";
 
 /*
 const Box = () => {
@@ -28,7 +27,7 @@ softShadows();
 class Model extends Component {
   state = {
     AccessToken: { token: "abc" },
-    chosenModel: { title: "def" },
+    ID: { projectID: "def" },
     showMenu: false,
     showBeaconF: false,
     showModelF: false,
@@ -36,25 +35,32 @@ class Model extends Component {
     showTrackingF: false,
   };
 
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
+    console.clear();
     console.log("Model chosen successfully!");
 
     const query = new URLSearchParams(this.props.location.search);
     const AccessToken = {};
-    const title = {};
+    const id = {};
     for (let param of query.entries()) {
       AccessToken[param[0]] = param[1];
     }
     this.setState({ AccessToken: AccessToken });
 
     for (let param of query.entries()) {
-      title[param[0]] = param[1];
+      id[param[0]] = param[1];
     }
-    this.setState({ chosenModel: title });
+    this.setState({ ID: id });
+
     /*
 
         axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {console.log(res); console.log(this.state.AccessToken.token); this.setState({data: res.data}); console.log(this.state.data)});
 */
+  }
+
+  componentDidMount() {
+    console.log(this.state.AccessToken.token);
+    console.log(this.state.ID.projectID);
   }
 
   MenuHandler = () => {

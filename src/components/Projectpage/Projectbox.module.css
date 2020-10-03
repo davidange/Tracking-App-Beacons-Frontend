@@ -1,19 +1,21 @@
-.Projectbox{
-    width: 60%;
-    margin: 16px auto;
-    border:1px solid #eee;
-    box-shadow: 0 2px 3px #ccc;
-    padding: 16px;
-    text-align: center;
+.Projectbox {
+  width: 60%;
+  margin: 16px auto;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  padding: 16px;
+  text-align: center;
 }
 
 .Projectbox:hover {
-
-    cursor: pointer;
-    background-color: #FAEBD7;
+  cursor: pointer;
+  background-color: #faebd7;
 }
 
-.Title:hover{
+.Title:hover {
+  text-decoration: underline;
+}
 
-    text-decoration: underline;
+.Teamname {
+  color: grey;
 }
