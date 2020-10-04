@@ -10,7 +10,7 @@ class Projects extends Component {
   };
 
   UNSAFE_componentWillMount() {
-    console.clear();
+    //console.clear();
     console.log("Login successful!");
 
     const query = new URLSearchParams(this.props.location.search);

@@ -36,7 +36,7 @@ class Model extends Component {
   };
 
   UNSAFE_componentWillMount() {
-    console.clear();
+    //console.clear();
     console.log("Model chosen successfully!");
 
     const query = new URLSearchParams(this.props.location.search);
