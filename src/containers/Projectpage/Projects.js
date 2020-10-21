@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classes from "./Projects.module.css";
-import axios from "axios";
+import axios from "../../axios-instance";
 import Projectbox from "../../components/Projectpage/Projectbox";
 
 class Projects extends Component {

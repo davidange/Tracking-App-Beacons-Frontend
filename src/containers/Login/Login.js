@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 //import { findAllInRenderedTree } from 'react-dom/test-utils';
 import classes from "./Login.module.css";
-import axios from "axios";
+import axios from "../../axios-instance";
 
 class login extends Component {
   /*

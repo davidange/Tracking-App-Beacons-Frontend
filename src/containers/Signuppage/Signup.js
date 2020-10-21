@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './Signup.module.css';
-import axios from 'axios';
+import axios from '../../axios-instance';
 
 
 class Signup extends Component {
