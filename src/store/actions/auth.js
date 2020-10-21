@@ -52,7 +52,7 @@ export const signUp = (email, password, name) => {
 	};
 };
 
-export const signIn = (email, password) => {
+export const signIn = (email, password, rememberUser = false) => {
 	return (dispatch) => {
 		dispatch(authStart());
 		const data = {
@@ -63,9 +63,12 @@ export const signIn = (email, password) => {
 			.post("user/login", data)
 			.then((res) => {
 				const expirationDate = new Date(new Date().getTime() + res.data.expires_in * 1000);
-				//save in browser login Data
-				localStorage.setItem("token", res.data.token);
-				localStorage.setItem("expirationDate", expirationDate);
+				
+				if (rememberUser) {
+					//save in browser login Data
+					localStorage.setItem("token", res.data.token);
+					localStorage.setItem("expirationDate", expirationDate);
+				}
 				dispatch(authSuccess(res.data.token));
 				dispatch(checkAuthTimeout(res.data.expires_in));
 			})
