@@ -1,14 +1,14 @@
 import React from 'react';
-import Aux from '../../hoc/auxi';
+
 import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 const layout = (props) => (
-    <Aux>
+    <React.Fragment>
     <Toolbar></Toolbar>
     <main>
         {props.children}
     </main>
-    </Aux>
+    </React.Fragment>
 );
 
 export default layout;
