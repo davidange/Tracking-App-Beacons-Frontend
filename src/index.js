@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 
-const authReducer = import("./store/reducers/auth");
+import authReducer from "./store/reducers/auth";
 //*** setup Redux Store
 //development settup
 const composeEnhancers =
