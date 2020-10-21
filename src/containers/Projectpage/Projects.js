@@ -48,7 +48,7 @@ class Projects extends Component {
     const header = { Authorization: "Bearer " + this.state.AccessToken.token };
     //console.log({ headers: header });
     axios
-      .get("/projects", { headers: header })
+      .get("projects", { headers: header })
       .then((res) => {
         console.log(res);
         this.setState({ data: res.data.projects });

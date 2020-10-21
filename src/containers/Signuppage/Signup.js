@@ -67,7 +67,7 @@ class Signup extends Component {
       }
       //console.log(post);
   
-      axios.post('/user/register', post).then(res => {console.log(res) });
+      axios.post('user/register', post).then(res => {console.log(res) });
       //then(res => {console.log(res.data)})
       //then(res => {this.setState({AccessToken:{token: res.data.token}})});
     }
