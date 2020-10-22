@@ -10,6 +10,7 @@ import LoginScreen from "./containers/Login/Login";
 import Projects from "./containers/Projectpage/Projects";
 import Signup from "./containers/Signuppage/Signup";
 import Model from "./containers/Modelpage/Model";
+import Logout from './containers/Logout/Logout'
 
 const App = (props) => {
 	const { onTryAutoSignup } = props;
@@ -26,6 +27,7 @@ const App = (props) => {
 			<Redirect to="/SignIn" />
 		</Switch>
 	);
+
 	//if user Authenticated:
 	if (props.isAuthenticated) {
 		routes = (
@@ -34,6 +36,7 @@ const App = (props) => {
 				<Route path="/Model" component={Model}></Route>
 				<Route path="/Signup" exact component={Signup}></Route>
 				<Route path="/SignIn" exact component={LoginScreen}></Route>
+				<Route path="/Logout" component={Logout} />
 			</Switch>
 		);
 	}
@@ -41,7 +44,7 @@ const App = (props) => {
 	return (
 		<div>
 			<AlertSnackbar />
-			<Layout>{routes}</Layout>
+			<Layout isAuth={props.isAuthenticated}>{routes}</Layout>
 		</div>
 	);
 };

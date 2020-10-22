@@ -1,12 +1,14 @@
 import React from "react";
 
-import Toolbar from "../Navigation/Toolbar/Toolbar";
+import AppBar from "../Navigation/AppBar/AppBar";
 
 const layout = (props) => {
-    console.log('RENDERED LAYOUT')
+	console.log("RENDERED LAYOUT");
 	return (
 		<React.Fragment>
-			<Toolbar></Toolbar>
+			<AppBar
+				isAuth={props.isAuth}
+			></AppBar>
 			<main>{props.children}</main>
 		</React.Fragment>
 	);
