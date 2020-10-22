@@ -1,5 +1,6 @@
 import axios from "../../axios-instance";
 import * as actionTypes from "./actionTypes";
+import * as actionSnackbar from "./snackbar";
 
 const authStart = () => {
 	return {
@@ -48,6 +49,12 @@ export const signUp = (email, password, name) => {
 			})
 			.catch((err) => {
 				dispatch(authFail(err.response.data)); //or data.error? TODO
+				let message = err.response.data && err.response.data.errors[0] && err.response.data.errors[0].msg;
+				if (message === null) {
+					message = "Unknown Error Occurred";
+				}
+				dispatch(actionSnackbar.setSnackbar("error", message));
+				dispatch(actionSnackbar.openSnackbar());
 			});
 	};
 };
@@ -63,7 +70,7 @@ export const signIn = (email, password, rememberUser = false) => {
 			.post("user/login", data)
 			.then((res) => {
 				const expirationDate = new Date(new Date().getTime() + res.data.expires_in * 1000);
-				
+
 				if (rememberUser) {
 					//save in browser login Data
 					localStorage.setItem("token", res.data.token);
@@ -74,6 +81,12 @@ export const signIn = (email, password, rememberUser = false) => {
 			})
 			.catch((err) => {
 				dispatch(authFail(err.response.data)); //or data.error? TODO
+				let message = err.response.data && err.response.data.errors[0] && err.response.data.errors[0].msg;
+				if (message === null) {
+					message = "Unknown Error Occurred";
+				}
+				dispatch(actionSnackbar.setSnackbar("error", message));
+				dispatch(actionSnackbar.openSnackbar());
 			});
 	};
 };

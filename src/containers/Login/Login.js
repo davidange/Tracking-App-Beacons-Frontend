@@ -1,114 +1,122 @@
-import React, { Component } from "react";
-//import { findAllInRenderedTree } from 'react-dom/test-utils';
-import classes from "./Login.module.css";
-import axios from "../../axios-instance";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import * as actions from "../../store/actions/index";
 
-class login extends Component {
-  /*
-    componentDidMount () {
-  
-      axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {console.log(res)});
-    }
-  */
-  state = {
-    Email: { email: "E-Mail" },
-    Password: { password: "Password" },
-    AccessToken: { token: "abc" },
-    Status: { status: 1 },
-  };
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import useStyles from "./useStyles";
+import Container from "@material-ui/core/Container";
+const Login = (props) => {
+	const classes = useStyles();
 
-  /*
-    componentDidUpdate () {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [rememberUser, setRememberUser] = useState(false);
 
-      const post = {
-        email: this.state.Email.email,
-        password: this.state.Password.password,
-  
-      }
-  
-      axios.post('/user/login', post).then(res => {this.setState({ AccessToken: { token: res.data.token } }); this.setState({Status: {status: res.status}}) });
-      //then(res => {console.log(res.data)})
-      //then(res => {this.setState({AccessToken:{token: res.data.token}})});
+	const emailChangedHandler = (event) => {
+		setEmail(event.target.value);
+	};
 
-    }
-*/
+	const passwordChangedHandler = (event) => {
+		setPassword(event.target.value);
+	};
 
-  LoginClick = () => {
-    const post = {
-      email: this.state.Email.email,
-      password: this.state.Password.password,
-    };
+	const switchRememberUserHandler = () => {
+		setRememberUser(!rememberUser);
+	};
 
-    axios.post("user/login", post).then((res) => {
-      this.setState({ AccessToken: { token: res.data.token } });
-      this.setState({ Status: { status: res.status } });
-    });
+	const submitHandler = (event) => {
+		event.preventDefault();
+		console.log("Trying to login!");
+		props.onLogin(email, password, rememberUser);
+	};
 
-    setTimeout(this.Redirecting, 1500);
-  };
 
-  Redirecting = () => {
-    if (this.state.Status.status == 200) {
-      const queryParams = [];
+	let authRedirect = null;
+	if (props.isAuthenticated) {
+		authRedirect = <Redirect to={"/Projects"} />;
+	}
 
-      queryParams.push(
-        encodeURIComponent("token") +
-          "=" +
-          encodeURIComponent(this.state.AccessToken.token)
-      );
+	return (
+		<React.Fragment>
+			{authRedirect}
+			<Container component="main" maxWidth="xs">
+				<CssBaseline />
+				<div className={classes.paper}>
+					<Avatar className={classes.avatar}>
+						<LockOutlinedIcon />
+					</Avatar>
+					<Typography component="h1" variant="h5">
+						Sign in
+					</Typography>
+					<form className={classes.form} noValidate onSubmit={submitHandler}>
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							fullWidth
+							id="email"
+							label="Email Address"
+							name="email"
+							autoComplete="email"
+							autoFocus
+							onChange={emailChangedHandler}
+						/>
+						<TextField
+							variant="outlined"
+							margin="normal"
+							required
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							id="password"
+							autoComplete="current-password"
+							onChange={passwordChangedHandler}
+						/>
+						<FormControlLabel
+							control={<Checkbox value="remember" color="primary" />}
+							label="Remember me"
+							onChange={switchRememberUserHandler}
+						/>
+						<Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+							Sign In
+						</Button>
+						<Grid container>
+							<Grid item>
+								<Link href="/signUp" variant="body2">
+									{"Don't have an account? Sign Up"}
+								</Link>
+							</Grid>
+						</Grid>
+					</form>
+				</div>
+			</Container>
+		</React.Fragment>
+	);
+};
 
-      const queryString = queryParams.join("&");
+const mapStateToProps = (state) => {
+	return {
+		error: state.auth.error,
+		isAuthenticated: state.auth.token !== null,
+	};
+};
 
-      this.props.history.push({
-        pathname: "/Projects",
-        search: "?" + queryString,
-      });
-    } else {
-      alert("Login failed!");
-    }
-  };
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onLogin: (email, password, rememberUser) => dispatch(actions.signIn(email, password, rememberUser)),
+	};
+};
 
-  SignupClick = () => {
-    this.props.history.push({
-      pathname: "/Signup",
-    });
-  };
-
-  EmailChangedHandler = (event) => {
-    this.setState({
-      Email: { email: event.target.value },
-    });
-  };
-
-  PasswordChangedHandler = (event) => {
-    this.setState({
-      Password: { password: event.target.value },
-    });
-  };
-
-  render() {
-    return (
-      <div className={classes.LoginScreen}>
-        Login
-        <input
-          type="text"
-          value={this.state.Email.email}
-          onChange={this.EmailChangedHandler}
-        ></input>
-        <input
-          type="password"
-          value={this.state.Password.password}
-          onChange={this.PasswordChangedHandler}
-        ></input>
-        <button className={classes.LoginButton} onClick={this.LoginClick}>
-          Login
-        </button>
-        <p className={classes.Signup} onClick={this.SignupClick}>
-          Signup
-        </p>
-      </div>
-    );
-  }
-}
-
-export default login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

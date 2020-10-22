@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 
 import authReducer from "./store/reducers/auth";
+import snackbarReducer from './store/reducers/snackbar'
 //*** setup Redux Store
 //development settup
 const composeEnhancers =
@@ -16,6 +17,7 @@ const composeEnhancers =
 //reducers
 const rootReducer = combineReducers({
 	auth: authReducer,
+	snackbar:snackbarReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
