@@ -16,6 +16,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "./useStyles";
 import Container from "@material-ui/core/Container";
+
 const Login = (props) => {
 	const classes = useStyles();
 
@@ -40,7 +41,6 @@ const Login = (props) => {
 		console.log("Trying to login!");
 		props.onLogin(email, password, rememberUser);
 	};
-
 
 	let authRedirect = null;
 	if (props.isAuthenticated) {

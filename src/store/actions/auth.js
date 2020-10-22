@@ -35,27 +35,50 @@ const checkAuthTimeout = (expirationTime) => {
 	};
 };
 
-export const signUp = (email, password, name) => {
+const authFailAndSendSnackbar = (data) => {
+	return (dispatch) => {
+		dispatch(authFail(data));
+		let message = data?.message; //Error  given by server
+		console.log(message);
+		if (!message) {
+			//validation Error
+			const temp = data?.errors;
+			if (temp) {
+				message = data?.errors[0].msg;
+			}
+		}
+		if (!message) {
+			//Unknown Error
+			message = "Unknown Error Has occured";
+		}
+
+		dispatch(actionSnackbar.setSnackbar("error", message));
+		dispatch(actionSnackbar.openSnackbar());
+	};
+};
+
+export const signUp = (email, password, confirmPassword, name) => {
 	return (dispatch) => {
 		dispatch(authStart());
 		const data = {
 			email: email,
 			password: password,
+			name: name,
 		};
-		axios
-			.post("user/login", data)
-			.then((res) => {
-				dispatch(authSignUpSuccess());
-			})
-			.catch((err) => {
-				dispatch(authFail(err.response.data)); //or data.error? TODO
-				let message = err.response.data && err.response.data.errors[0] && err.response.data.errors[0].msg;
-				if (message === null) {
-					message = "Unknown Error Occurred";
-				}
-				dispatch(actionSnackbar.setSnackbar("error", message));
-				dispatch(actionSnackbar.openSnackbar());
-			});
+		if (password === confirmPassword) {
+			axios
+				.post("user/register", data)
+				.then((res) => {
+					dispatch(authSignUpSuccess());
+					dispatch(actionSnackbar.setSnackbar("success",  "New Account has been created" ));
+					dispatch(actionSnackbar.openSnackbar());
+				})
+				.catch((err) => {
+					dispatch(authFailAndSendSnackbar(err.response.data));
+				});
+		} else {
+			dispatch(authFailAndSendSnackbar({ message: "Passwords are different" }));
+		}
 	};
 };
 
@@ -80,13 +103,7 @@ export const signIn = (email, password, rememberUser = false) => {
 				dispatch(checkAuthTimeout(res.data.expires_in));
 			})
 			.catch((err) => {
-				dispatch(authFail(err.response.data)); //or data.error? TODO
-				let message = err.response.data && err.response.data.errors[0] && err.response.data.errors[0].msg;
-				if (message === null) {
-					message = "Unknown Error Occurred";
-				}
-				dispatch(actionSnackbar.setSnackbar("error", message));
-				dispatch(actionSnackbar.openSnackbar());
+				dispatch(authFailAndSendSnackbar(err.response.data));
 			});
 	};
 };

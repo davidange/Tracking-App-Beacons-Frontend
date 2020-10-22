@@ -4,12 +4,14 @@ const initialState = {
 	token: null,
 	error: null,
 	loading: false,
+	signupSucces:false,
 	authRedirectPath: "/",
 };
 
 const authStart = (state, action) => {
 	return {
 		...state,
+		signupSucces:false,
 		error: null,
 		loading: true,
 	};
@@ -27,6 +29,7 @@ const authSuccess = (state, action) => {
 const authFail = (state, action) => {
 	return {
 		...state,
+		signupSucces:false,
 		error: action.error,
 		loading: false,
 	};
@@ -35,6 +38,7 @@ const authFail = (state, action) => {
 const authSignUpSuccess = (state, action) => {
 	return {
 		...state,
+		signupSucces:true,
 		error: null,
 		loading: false,
 	};
