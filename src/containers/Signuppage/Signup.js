@@ -59,6 +59,7 @@ const SignUp = (props) => {
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={12}>
 							<TextField
+								color="secondary"
 								autoComplete="fname"
 								name="firstName"
 								variant="outlined"
@@ -72,6 +73,7 @@ const SignUp = (props) => {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+								color="secondary"
 								variant="outlined"
 								required
 								fullWidth
@@ -84,6 +86,7 @@ const SignUp = (props) => {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+								color="secondary"
 								variant="outlined"
 								required
 								fullWidth
@@ -97,6 +100,7 @@ const SignUp = (props) => {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
+								color="secondary"
 								variant="outlined"
 								required
 								fullWidth
@@ -114,7 +118,7 @@ const SignUp = (props) => {
 					</Button>
 					<Grid container justify="flex-end">
 						<Grid item>
-							<Link href="/SignIn" variant="body2">
+							<Link href="/SignIn" variant="body2" color="secondary">
 								Already have an account? Sign in
 							</Link>
 						</Grid>

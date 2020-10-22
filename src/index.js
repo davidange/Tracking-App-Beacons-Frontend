@@ -7,9 +7,11 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
+import { ThemeProvider } from "@material-ui/core";
+import {theme} from './theme'
 
 import authReducer from "./store/reducers/auth";
-import snackbarReducer from './store/reducers/snackbar'
+import snackbarReducer from "./store/reducers/snackbar";
 //*** setup Redux Store
 //development settup
 const composeEnhancers =
@@ -17,7 +19,7 @@ const composeEnhancers =
 //reducers
 const rootReducer = combineReducers({
 	auth: authReducer,
-	snackbar:snackbarReducer
+	snackbar: snackbarReducer,
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
@@ -26,7 +28,9 @@ const app = (
 	<React.StrictMode>
 		<Provider store={store}>
 			<BrowserRouter>
-				<App />
+				<ThemeProvider theme ={theme}>
+					<App />
+				</ThemeProvider>
 			</BrowserRouter>
 		</Provider>
 	</React.StrictMode>

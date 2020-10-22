@@ -60,6 +60,7 @@ const Login = (props) => {
 					</Typography>
 					<form className={classes.form} noValidate onSubmit={submitHandler}>
 						<TextField
+							color="secondary"
 							variant="outlined"
 							margin="normal"
 							required
@@ -72,6 +73,7 @@ const Login = (props) => {
 							onChange={emailChangedHandler}
 						/>
 						<TextField
+							color="secondary"
 							variant="outlined"
 							margin="normal"
 							required
@@ -84,7 +86,7 @@ const Login = (props) => {
 							onChange={passwordChangedHandler}
 						/>
 						<FormControlLabel
-							control={<Checkbox value="remember" color="primary" />}
+							control={<Checkbox value="remember" color="secondary" />}
 							label="Remember me"
 							onChange={switchRememberUserHandler}
 						/>
@@ -93,7 +95,7 @@ const Login = (props) => {
 						</Button>
 						<Grid container>
 							<Grid item>
-								<Link href="/SignUp" variant="body2">
+								<Link href="/SignUp" variant="body2" color="secondary">
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>
