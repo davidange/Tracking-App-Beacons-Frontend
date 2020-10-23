@@ -10,7 +10,7 @@ import LoginScreen from "./containers/Login/Login";
 import Projects from "./containers/Projectpage/Projects";
 import Signup from "./containers/Signuppage/Signup";
 import Model from "./containers/Modelpage/Model";
-import Logout from './containers/Logout/Logout'
+import Logout from "./containers/Logout/Logout";
 
 const App = (props) => {
 	const { onTryAutoSignup } = props;
@@ -33,10 +33,11 @@ const App = (props) => {
 	if (props.isAuthenticated) {
 		routes = (
 			<Switch>
-				<Route path="/Projects" component={Projects}></Route>
-				<Route path="/Model" component={Model}></Route>
-				<Route path="/Signup" exact component={Signup}></Route>
-				<Route path="/SignIn" exact component={LoginScreen}></Route>
+				<Route path="/Projects" exact component={Projects} />
+				<Route path="/Projects/:projectId" component={Projects} />
+				<Route path="/Model" component={Model} />
+				<Route path="/Signup" exact component={Signup} />
+				<Route path="/SignIn" exact component={LoginScreen} />
 				<Route path="/Logout" component={Logout} />
 			</Switch>
 		);
@@ -45,7 +46,9 @@ const App = (props) => {
 	return (
 		<div>
 			<AlertSnackbar />
-			<Layout isAuth={props.isAuthenticated}>{routes}</Layout>
+			<Layout isAuth={props.isAuthenticated} activeProject={props.activeProject}>
+				{routes}
+			</Layout>
 		</div>
 	);
 };
@@ -53,6 +56,7 @@ const App = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		isAuthenticated: state.auth.token !== null,
+		activeProject: state.activeProject.activeProject,
 	};
 };
 
