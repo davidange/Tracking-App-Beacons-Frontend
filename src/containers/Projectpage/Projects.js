@@ -5,16 +5,21 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import * as actions from "../../store/actions/index";
 
 import classes from "./Projects.module.css";
+import useStyles from "./useStyles";
+import Button from "@material-ui/core/Button";
 import Projectbox from "../../components/Projectpage/Projectbox";
 
 const Projects = (props) => {
-	const { loading, projects, onInitProjects } = props;
+	const { loading, projects, onInitProjects, updateProjects, clearActiveProject } = props;
 	const [redirect, setRedirect] = useState(null);
 	let listOfProjectCards = null;
-	//initialize the list of projects
+
+	const classesStyles = useStyles();
+
 	useEffect(() => {
 		onInitProjects();
-	}, [onInitProjects]);
+		clearActiveProject();
+	}, [onInitProjects, clearActiveProject]);
 
 	if (loading) {
 		listOfProjectCards = <CircularProgress color="secondary" size={120} />;
@@ -46,6 +51,11 @@ const Projects = (props) => {
 	return (
 		<React.Fragment>
 			{redirect}
+			<div className={classesStyles.buttonsDiv}>
+				<Button variant="contained" color="secondary" onClick={()=>updateProjects()}>
+					Update List from Bimplus
+				</Button>
+			</div>
 			<div className={classes.Projects}>{listOfProjectCards}</div>
 		</React.Fragment>
 	);
@@ -62,6 +72,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onInitProjects: () => dispatch(actions.fetchProjects()),
 		updateProjects: () => dispatch(actions.updateProjects()),
+		clearActiveProject: () => dispatch(actions.clearActiveProject()),
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Projects);

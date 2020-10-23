@@ -24,6 +24,7 @@ const App = (props) => {
 		<Switch>
 			<Route path="/Signup" exact component={Signup}></Route>
 			<Route path="/SignIn" exact component={LoginScreen}></Route>
+			<Route path="/Logout" component={Logout} />
 			<Redirect to="/SignIn" />
 		</Switch>
 	);

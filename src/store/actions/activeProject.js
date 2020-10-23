@@ -35,7 +35,7 @@ export const setActiveProject = (projectId) => {
 				dispatch(setActiveProjectSuccess(res.data.project));
 			})
 			.catch((err) => {
-				dispatch(actionTypes.SET_ACTIVE_PROJECT_FAIL(err.response.data));
+				dispatch(setActiveProjectFail(err.response.data));
 			});
 	};
 };

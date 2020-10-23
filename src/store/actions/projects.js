@@ -22,13 +22,13 @@ export const fetchProjects = () => {
 		dispatch(fetchProjectsStart());
 		const header = { Authorization: "Bearer " + getState().auth.token };
 		axios
-		.get("projects", { headers: header })
-		.then((res) => {
-			dispatch(fetchProjectsSuccess(res.data.projects));
-		})
-		.catch((error) => {
-			dispatch(fetchProjectsFail(error.response.data));
-		});
+			.get("projects", { headers: header })
+			.then((res) => {
+				dispatch(fetchProjectsSuccess(res.data.projects));
+			})
+			.catch((error) => {
+				dispatch(fetchProjectsFail(error.response.data));
+			});
 	};
 };
 
@@ -51,9 +51,10 @@ export const updateProjects = () => {
 		dispatch(updateProjectsStart());
 		const header = { Authorization: "Bearer " + getState().auth.token };
 		axios
-			.post("projects", { headers: header })
+			.post("projects/update",null, { headers: header })
 			.then((res) => {
 				dispatch(updateProjectsSuccess());
+				dispatch(fetchProjects());
 			})
 			.catch((error) => {
 				dispatch(updateProjectsFail(error.response.data));

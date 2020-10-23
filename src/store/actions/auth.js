@@ -111,6 +111,7 @@ export const signIn = (email, password, rememberUser = false) => {
 export const logout = () => {
 	localStorage.removeItem("token");
 	localStorage.removeItem("expirationDate");
+	console.log('REMOVED TOKEN!!!')
 	return {
 		type: actionTypes.AUTH_LOGOUT,
 	};
