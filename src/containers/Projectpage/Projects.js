@@ -7,7 +7,7 @@ import * as actions from "../../store/actions/index";
 import classes from "./Projects.module.css";
 import useStyles from "./useStyles";
 import Button from "@material-ui/core/Button";
-import Projectbox from "../../components/Projectpage/Projectbox";
+import Projectbox from "../../components/Projectbox/Projectbox";
 
 const Projects = (props) => {
 	const { loading, projects, onInitProjects, updateProjects, clearActiveProject } = props;

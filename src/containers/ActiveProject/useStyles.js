@@ -12,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
 		height: 100,
 	},
 
+	fixedHeightPaper: {
+		height: 450,
+	},
+
 	paper: {
 		padding: theme.spacing(2),
 		display: "flex",

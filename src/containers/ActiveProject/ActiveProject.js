@@ -13,6 +13,7 @@ const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, match } = props;
 	const classes = useStyles();
 	const fixedTitleHeightPaper = clsx(classes.fixedHeightPaperTitle, classes.paper);
+	const fixedHeightPaper = clsx(classes.fixedHeightPaper, classes.paper);
 
 	useEffect(() => {
 		setActiveProject(match.params.projectId);
@@ -39,13 +40,13 @@ const ActiveProject = (props) => {
 						<Paper className={fixedTitleHeightPaper}>{projectInfo}</Paper>
 					</Grid>
 					<Grid item xs={12} sm={4}>
-						<Paper>Sidebar</Paper>
+						<Paper className={fixedHeightPaper}>Sidebar</Paper>
 					</Grid>
 					<Grid item xs={12} sm={8}>
-						<Paper>Main Content</Paper>
+						<Paper className={fixedHeightPaper}>Main Content</Paper>
 					</Grid>
 					<Grid item xs={12}>
-						<Paper>Footer</Paper>
+						<Paper className={classes.paper}>Footer</Paper>
 					</Grid>
 				</Grid>
 			</Container>
