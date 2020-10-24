@@ -11,6 +11,7 @@ import Projects from "./containers/Projectpage/Projects";
 import Signup from "./containers/Signuppage/Signup";
 import Model from "./containers/Modelpage/Model";
 import Logout from "./containers/Logout/Logout";
+import ActiveProject from "./containers/ActiveProject/ActiveProject";
 
 const App = (props) => {
 	const { onTryAutoSignup } = props;
@@ -34,7 +35,7 @@ const App = (props) => {
 		routes = (
 			<Switch>
 				<Route path="/Projects" exact component={Projects} />
-				<Route path="/Projects/:projectId" component={Projects} />
+				<Route path="/ActiveProject/:projectId" component={ActiveProject}/>	
 				<Route path="/Model" component={Model} />
 				<Route path="/Signup" exact component={Signup} />
 				<Route path="/SignIn" exact component={LoginScreen} />

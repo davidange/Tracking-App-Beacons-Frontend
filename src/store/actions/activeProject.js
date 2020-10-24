@@ -30,7 +30,7 @@ export const setActiveProject = (projectId) => {
 		dispatch(setActiveProjectStart());
 		const header = { Authorization: "Bearer " + getState().auth.token };
 		axios
-			.post("projects/" + projectId, { headers: header })
+			.get("projects/" + projectId, { headers: header })
 			.then((res) => {
 				dispatch(setActiveProjectSuccess(res.data.project));
 			})

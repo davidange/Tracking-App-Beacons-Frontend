@@ -27,7 +27,7 @@ const Projects = (props) => {
 
 	const projectClickedHandler = (id) => {
 		console.log(id);
-		setRedirect(<Redirect to={"Project/" + id} />);
+		setRedirect(<Redirect to={"ActiveProject/" + id} push/>);
 		//return ;
 	};
 
@@ -52,7 +52,7 @@ const Projects = (props) => {
 		<React.Fragment>
 			{redirect}
 			<div className={classesStyles.buttonsDiv}>
-				<Button variant="contained" color="secondary" onClick={()=>updateProjects()}>
+				<Button variant="contained" color="secondary" onClick={() => updateProjects()}>
 					Update List from Bimplus
 				</Button>
 			</div>

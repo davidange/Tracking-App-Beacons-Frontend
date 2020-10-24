@@ -23,27 +23,38 @@ const mapItemsToList = (items, history) => {
 const SideDrawer = (props) => {
 	const classes = useStyles();
 	let { isDrawerOpen, toggleDrawer, activeProject, history } = props;
-	console.log(activeProject);
+	
+	console.log("!!!!!!!")
+	console.log(activeProject)
 	const defaultItems = [
 		{
 			text: "Select Project",
 			route: "/Projects",
 		},
 	];
-
-	const activeProjectDefaultItems = [
-		{
-			text: "Project Setup",
-			route: "/",
-		},
-		{
-			text: "Tracking Items/Users",
-		},
-	];
-
 	const defaultListItems = mapItemsToList(defaultItems, history);
 
-	const activeProjectListDefaultItems = mapItemsToList(activeProjectDefaultItems, history);
+	let activeProjectDefaultItems=null;
+	let activeProjectListDefaultItems =null;
+
+
+	if(activeProject){
+
+		activeProjectDefaultItems = [
+			{
+				text: "Project Setup",
+				route: "/ActiveProject/".concat(activeProject._id),
+			},
+			{
+				text: "Tracking Items/Users",
+				route:"/ActiveProject/".concat(activeProject._id)
+			},
+		];
+		activeProjectListDefaultItems = mapItemsToList(activeProjectDefaultItems, history);
+		
+	}
+	
+
 
 	return (
 		<SwipeableDrawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
