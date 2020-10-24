@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
+import clsx from "clsx";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import useStyles from "./useStyles";
-import ProjectInfoCard from "../../components/Cards/ProjectInfoCard/ProjectInfoCard";
-import Container from '@material-ui/core/Container'
+import ProjectInfoCard from "../../components/ProjectTitleInfo/ProjectTitleInfo";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 
 const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, match } = props;
 	const classes = useStyles();
-	console.log("---------");
-	console.log(match);
+	const fixedTitleHeightPaper = clsx(classes.fixedHeightPaperTitle, classes.paper);
 
 	useEffect(() => {
 		setActiveProject(match.params.projectId);
-		console.log("SET ACTIVE PROJECT!!");
 	}, [setActiveProject, match.params.projectId]);
 
 	if (loadingActiveProject) {
@@ -27,16 +28,27 @@ const ActiveProject = (props) => {
 
 	let projectInfo = null;
 	if (activeProject) {
-		console.log(activeProject);
 		projectInfo = <ProjectInfoCard projectName={activeProject.name} projectTeam={activeProject.team_name} />;
 	}
 
 	return (
-		<div className={classes.gridContainer}>
-			<div className={classes.titleBar}><Container>{projectInfo}</Container></div>
-			<div className={classes.sideBar}>a</div>
-			<div className={classes.Main}>e</div>
-			<div className={classes.footer}>i</div>
+		<div className={classes.root}>
+			<Container className={classes.container}>
+				<Grid container spacing={3}>
+					<Grid item xs={12}>
+						<Paper className={fixedTitleHeightPaper}>{projectInfo}</Paper>
+					</Grid>
+					<Grid item xs={12} sm={4}>
+						<Paper>Sidebar</Paper>
+					</Grid>
+					<Grid item xs={12} sm={8}>
+						<Paper>Main Content</Paper>
+					</Grid>
+					<Grid item xs={12}>
+						<Paper>Footer</Paper>
+					</Grid>
+				</Grid>
+			</Container>
 		</div>
 	);
 };
