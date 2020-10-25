@@ -9,6 +9,7 @@ const initialState = {
 const setActiveProjectStart = (state, action) => {
 	return {
 		...state,
+		activeProject: null,
 		loading: true,
 		error: null,
 	};

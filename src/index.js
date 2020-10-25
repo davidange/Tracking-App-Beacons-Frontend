@@ -14,6 +14,7 @@ import authReducer from "./store/reducers/auth";
 import snackbarReducer from "./store/reducers/snackbar";
 import projectsReducer from "./store/reducers/projects";
 import activeProjectReducer from "./store/reducers/activeProject";
+import activeProjectBeaconsReducer from "./store/reducers/beacons";
 //*** setup Redux Store
 //development settup
 const composeEnhancers =
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
 	snackbar: snackbarReducer,
 	projects: projectsReducer,
 	activeProject: activeProjectReducer,
+	activeProjectBeacons: activeProjectBeaconsReducer,
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
