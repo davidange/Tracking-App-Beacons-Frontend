@@ -30,7 +30,7 @@ export const fetchBeacons = () => {
 			dispatch(fetchBeaconsFail({ message: "The project ID was not Found" }));
 		} else {
 			axios
-				.get("projects/" + projectId+"/beacons", { headers: header })
+				.get("projects/" + projectId + "/beacons", { headers: header })
 				.then((res) => {
 					dispatch(fetchBeaconsSuccess(res.data.beacons));
 				})
@@ -68,9 +68,11 @@ export const setBeaconUID = (beaconID, beaconUID) => {
 		if (!projectId) {
 			dispatch(setBeaconUIDFail({ message: "The project ID was not Found" }));
 		} else {
+			const data = { beacon_uid: beaconUID };
 			axios
-				.get("projects/" + projectId, { headers: header })
+				.patch("projects/" + projectId + "/beacons/" + beaconID, data, { headers: header })
 				.then((res) => {
+					
 					dispatch(setBeaconUIDSuccess());
 					dispatch(fetchBeacons()); //update the list of beacons after setting the UID of the beacon
 				})
