@@ -30,7 +30,7 @@ export const fetchBeacons = () => {
 			dispatch(fetchBeaconsFail({ message: "The project ID was not Found" }));
 		} else {
 			axios
-				.get("projects/" + projectId, { headers: header })
+				.get("projects/" + projectId+"/beacons", { headers: header })
 				.then((res) => {
 					dispatch(fetchBeaconsSuccess(res.data.beacons));
 				})

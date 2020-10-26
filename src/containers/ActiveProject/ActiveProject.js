@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
 import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 import * as actions from "../../store/actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import useStyles from "./useStyles";
@@ -9,15 +10,18 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
+import Beacons from "./Beacons/Beacons";
+
 const ActiveProject = (props) => {
-	const { activeProject, loadingActiveProject, setActiveProject, match } = props;
+	const { activeProject, loadingActiveProject, setActiveProject, setActiveProjectMode, match } = props;
 	const classes = useStyles();
 	const fixedTitleHeightPaper = clsx(classes.fixedHeightPaperTitle, classes.paper);
 	const fixedHeightPaper = clsx(classes.fixedHeightPaper, classes.paper);
 
 	useEffect(() => {
 		setActiveProject(match.params.projectId);
-	}, [setActiveProject, match.params.projectId]);
+		setActiveProjectMode(match.params.mode);
+	}, [setActiveProject, setActiveProjectMode, match.params.projectId, match.params.mode]);
 
 	if (loadingActiveProject) {
 		return (
@@ -31,7 +35,6 @@ const ActiveProject = (props) => {
 	if (activeProject) {
 		projectInfo = <ProjectInfoCard projectName={activeProject.name} projectTeam={activeProject.team_name} />;
 	}
-
 	return (
 		<div className={classes.root}>
 			<Container className={classes.container}>
@@ -40,13 +43,16 @@ const ActiveProject = (props) => {
 						<Paper className={fixedTitleHeightPaper}>{projectInfo}</Paper>
 					</Grid>
 					<Grid item xs={12} sm={4}>
-						<Paper className={fixedHeightPaper}>Sidebar</Paper>
+						<Paper className={fixedHeightPaper}>
+							<Switch>
+								{match.params.mode === "ProjectSetup" ? (
+									<Route path={`${match.path}/Beacons`} component={Beacons} />
+								) : null}
+							</Switch>
+						</Paper>
 					</Grid>
 					<Grid item xs={12} sm={8}>
 						<Paper className={fixedHeightPaper}>Main Content</Paper>
-					</Grid>
-					<Grid item xs={12}>
-						<Paper className={classes.paper}>Footer</Paper>
 					</Grid>
 				</Grid>
 			</Container>
@@ -64,6 +70,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setActiveProject: (projectId) => dispatch(actions.setActiveProject(projectId)),
+		setActiveProjectMode: (mode) => dispatch(actions.setActiveProjetMode(mode)),
 	};
 };
 

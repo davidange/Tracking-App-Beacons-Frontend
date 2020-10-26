@@ -35,7 +35,7 @@ const App = (props) => {
 		routes = (
 			<Switch>
 				<Route path="/Projects" exact component={Projects} />
-				<Route path="/ActiveProject/:projectId" component={ActiveProject}/>	
+				<Route path="/ActiveProject/:projectId/:mode" component={ActiveProject} />
 				<Route path="/Model" component={Model} />
 				<Route path="/Signup" exact component={Signup} />
 				<Route path="/SignIn" exact component={LoginScreen} />
@@ -47,7 +47,11 @@ const App = (props) => {
 	return (
 		<div>
 			<AlertSnackbar />
-			<Layout isAuth={props.isAuthenticated} activeProject={props.activeProject}>
+			<Layout
+				isAuth={props.isAuthenticated}
+				activeProject={props.activeProject}
+				activeProjectMode={props.projectMode}
+			>
 				{routes}
 			</Layout>
 		</div>
@@ -58,6 +62,7 @@ const mapStateToProps = (state) => {
 	return {
 		isAuthenticated: state.auth.token !== null,
 		activeProject: state.activeProject.activeProject,
+		projectMode:state.activeProject.projectMode
 	};
 };
 

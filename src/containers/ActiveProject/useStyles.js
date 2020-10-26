@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	fixedHeightPaper: {
-		height: 450,
+		height: 500,
 	},
 
 	paper: {
@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
 		overflow: "auto",
 		flexDirection: "column",
 	},
+	center:{
+		display: "block",
+		marginLeft: "auto",
+		marginRight: "auto"
+	}
+	
 }));
 
 export default useStyles;

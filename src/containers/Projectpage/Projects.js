@@ -27,7 +27,7 @@ const Projects = (props) => {
 
 	const projectClickedHandler = (id) => {
 		console.log(id);
-		setRedirect(<Redirect to={"ActiveProject/" + id} push/>);
+		setRedirect(<Redirect to={"ActiveProject/" + id+"/ProjectSetup"} push/>);
 		//return ;
 	};
 
