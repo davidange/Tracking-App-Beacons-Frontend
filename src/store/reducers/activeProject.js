@@ -4,6 +4,7 @@ const initialState = {
 	activeProject: null,
 	error: null,
 	loading: false,
+	projectMode: "ProjectSetup",
 };
 
 const setActiveProjectStart = (state, action) => {
@@ -40,6 +41,13 @@ const clearActiveProject = (state, action) => {
 	};
 };
 
+const setActiveProjectMode = (state, action) => {
+	return {
+		...state,
+		projectMode: action.mode,
+	};
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.SET_ACTIVE_PROJECT_START:
@@ -50,6 +58,8 @@ const reducer = (state = initialState, action) => {
 			return setActiveProjectFail(state, action);
 		case actionTypes.CLEAR_ACTIVE_PROJECT:
 			return clearActiveProject(state, action);
+		case actionTypes.SET_ACTIVE_PROJECT_MODE:
+			return setActiveProjectMode(state, action);
 		default:
 			return state;
 	}

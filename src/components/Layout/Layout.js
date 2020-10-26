@@ -4,7 +4,7 @@ import AppBar from "../Navigation/AppBar/AppBar";
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
 const Layout = (props) => {
-	const { isAuth, activeProject } = props;
+	const { isAuth, activeProject,activeProjectMode } = props;
 	const [sideDrawerIsVisible, setSideDrawerIsVisible] = useState(false);
 
 	const toggleDrawerHandler = (sideDrawerIsOpen) => (event) => {
@@ -23,6 +23,7 @@ const Layout = (props) => {
 					isAuth={isAuth}
 					toggleDrawer={toggleDrawerHandler}
 					activeProject={activeProject}
+					activeProjectMode={activeProjectMode}
 				/>
 			)}
 			<main>{props.children}</main>

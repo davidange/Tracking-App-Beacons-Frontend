@@ -22,10 +22,9 @@ const mapItemsToList = (items, history) => {
 
 const SideDrawer = (props) => {
 	const classes = useStyles();
-	let { isDrawerOpen, toggleDrawer, activeProject, history } = props;
-	
-	console.log("!!!!!!!")
-	console.log(activeProject)
+	let { isDrawerOpen, toggleDrawer, activeProject, activeProjectMode, history } = props;
+	const projectId = activeProject && activeProject._id;
+
 	const defaultItems = [
 		{
 			text: "Select Project",
@@ -34,27 +33,56 @@ const SideDrawer = (props) => {
 	];
 	const defaultListItems = mapItemsToList(defaultItems, history);
 
-	let activeProjectDefaultItems=null;
-	let activeProjectListDefaultItems =null;
+	let activeProjectDefaultItems = [
+		{
+			text: "Project Setup",
+			route: "/ActiveProject/".concat(projectId).concat("/ProjectSetup"),
+		},
+		{
+			text: "Tracking Items/Users",
+			route: "/ActiveProject/".concat(projectId).concat("/Tracking"),
+		},
+	];
+	let activeProjectListDefaultItems = null;
 
+	let projectSetupItems = [
+		{
+			text: "Beacon Model",
+			route: "/ActiveProject/".concat(projectId).concat("/ProjectSetup/BeaconModel"),
+		},
+		{
+			text: "Beacons Setup",
+			route: "/ActiveProject/".concat(projectId).concat("/ProjectSetup/Beacons"),
+		},
+	];
 
-	if(activeProject){
+	let trackedItems = [
+		{
+			text: "Tracked Items",
+			route: "/ActiveProject/".concat(projectId).concat("/Tracking/Items"),
+		},
+		{
+			text: "Tracked Users",
+			route: "/ActiveProject/".concat(projectId).concat("/Tracking/Users"),
+		},
+	];
 
-		activeProjectDefaultItems = [
-			{
-				text: "Project Setup",
-				route: "/ActiveProject/".concat(activeProject._id),
-			},
-			{
-				text: "Tracking Items/Users",
-				route:"/ActiveProject/".concat(activeProject._id)
-			},
-		];
+	let modeItems = null;
+
+	if (activeProject) {
 		activeProjectListDefaultItems = mapItemsToList(activeProjectDefaultItems, history);
-		
+		if (activeProjectMode) {
+			switch (activeProjectMode) {
+				case "ProjectSetup":
+					modeItems = mapItemsToList(projectSetupItems, history);
+					break;
+				case "Tracking":
+					modeItems = mapItemsToList(trackedItems, history);
+					break;
+				default:
+			}
+		}
 	}
-	
-
 
 	return (
 		<SwipeableDrawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)}>
@@ -62,6 +90,12 @@ const SideDrawer = (props) => {
 				<List>{defaultListItems}</List>
 				<Divider />
 				{activeProject && <List>{activeProjectListDefaultItems}</List>}
+				{activeProjectMode ? (
+					<React.Fragment>
+						<Divider />
+						<List>{modeItems}</List>
+					</React.Fragment>
+				) : null}
 			</div>
 		</SwipeableDrawer>
 	);

@@ -39,3 +39,10 @@ export const setActiveProject = (projectId) => {
 			});
 	};
 };
+
+export const setActiveProjetMode = (projectMode) => {
+	return {
+		type: actionTypes.SET_ACTIVE_PROJECT_MODE,
+		mode: projectMode,
+	};
+};
