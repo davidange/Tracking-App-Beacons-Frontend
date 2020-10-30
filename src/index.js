@@ -15,6 +15,7 @@ import snackbarReducer from "./store/reducers/snackbar";
 import projectsReducer from "./store/reducers/projects";
 import activeProjectReducer from "./store/reducers/activeProject";
 import activeProjectBeaconsReducer from "./store/reducers/beacons";
+import bimViewerReducer from "./store/reducers/bimViewer";
 //*** setup Redux Store
 //development settup
 const composeEnhancers =
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
 	projects: projectsReducer,
 	activeProject: activeProjectReducer,
 	activeProjectBeacons: activeProjectBeaconsReducer,
+	bimViewer: bimViewerReducer,
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
