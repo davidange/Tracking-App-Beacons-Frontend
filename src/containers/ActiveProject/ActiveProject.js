@@ -18,7 +18,6 @@ const ActiveProject = (props) => {
 	const classes = useStyles();
 	const fixedTitleHeightPaper = clsx(classes.fixedHeightPaperTitle, classes.paper);
 	const fixedHeightPaper = clsx(classes.fixedHeightPaper, classes.paper);
-	
 
 	useEffect(() => {
 		setActiveProject(match.params.projectId);
@@ -35,13 +34,12 @@ const ActiveProject = (props) => {
 
 	let projectInfo = null;
 	if (activeProject) {
-		console.log(activeProject);
 		projectInfo = <ProjectInfoCard projectName={activeProject.name} projectTeam={activeProject.team_name} />;
 	}
 	return (
 		<div className={classes.root}>
 			<Container className={classes.container} maxWidth="xl">
-				<Grid container spacing={3} >
+				<Grid container spacing={3}>
 					<Grid item xs={12}>
 						<Paper className={fixedTitleHeightPaper}>{projectInfo}</Paper>
 					</Grid>
@@ -56,7 +54,14 @@ const ActiveProject = (props) => {
 					</Grid>
 					<Grid item xs={12} sm={8}>
 						<Paper className={fixedHeightPaper}>
-							<BimplusViewer />
+							<Switch>
+								{match.params.mode === "ProjectSetup" && activeProject ? (
+									<Route
+										path={`${match.path}`}
+										render={() => <BimplusViewer teamId={activeProject.team_id} projectId={activeProject._id} />}
+									/>
+								) : null}
+							</Switch>
 						</Paper>
 					</Grid>
 				</Grid>

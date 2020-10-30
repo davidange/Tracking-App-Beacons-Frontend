@@ -32,7 +32,6 @@ export const setActiveProject = (projectId) => {
 		axios
 			.get("projects/" + projectId, { headers: header })
 			.then((res) => {
-				console.log(res.data.project);
 				dispatch(setActiveProjectSuccess(res.data.project));
 			})
 			.catch((err) => {
