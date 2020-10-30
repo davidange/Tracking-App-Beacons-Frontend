@@ -11,12 +11,14 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
 import Beacons from "./Beacons/Beacons";
+import BimplusViewer from "./Viewers/BimplusViewer/BimplusViewer";
 
 const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, setActiveProjectMode, match } = props;
 	const classes = useStyles();
 	const fixedTitleHeightPaper = clsx(classes.fixedHeightPaperTitle, classes.paper);
 	const fixedHeightPaper = clsx(classes.fixedHeightPaper, classes.paper);
+	
 
 	useEffect(() => {
 		setActiveProject(match.params.projectId);
@@ -33,12 +35,13 @@ const ActiveProject = (props) => {
 
 	let projectInfo = null;
 	if (activeProject) {
+		console.log(activeProject);
 		projectInfo = <ProjectInfoCard projectName={activeProject.name} projectTeam={activeProject.team_name} />;
 	}
 	return (
 		<div className={classes.root}>
-			<Container className={classes.container}>
-				<Grid container spacing={3}>
+			<Container className={classes.container} maxWidth="xl">
+				<Grid container spacing={3} >
 					<Grid item xs={12}>
 						<Paper className={fixedTitleHeightPaper}>{projectInfo}</Paper>
 					</Grid>
@@ -52,7 +55,9 @@ const ActiveProject = (props) => {
 						</Paper>
 					</Grid>
 					<Grid item xs={12} sm={8}>
-						<Paper className={fixedHeightPaper}>Main Content</Paper>
+						<Paper className={fixedHeightPaper}>
+							<BimplusViewer />
+						</Paper>
 					</Grid>
 				</Grid>
 			</Container>

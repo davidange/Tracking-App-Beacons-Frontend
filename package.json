@@ -11,8 +11,11 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "bimplus-webclient": "^0.1.4",
+    "bimplus-websdk": "0.0.137",
     "clsx": "^1.1.1",
     "drei": "^1.5.7",
+    "jquery": "^3.5.1",
     "react": "^16.13.1",
     "react-3d-model-viewer": "^1.1.1",
     "react-3d-viewer": "^1.0.12",
@@ -30,9 +33,9 @@
     "three": "^0.120.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -49,5 +52,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "imports-loader": "^1.2.0",
+    "react-app-rewired": "^2.1.6"
   }
 }
