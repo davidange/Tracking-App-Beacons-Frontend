@@ -10,7 +10,15 @@ import BeaconUIDDialog from "./BeaconUIDDialog/BeaconUIDDialog";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 const Beacons = (props) => {
-	const { beacons, fetchBeacons, loadingBeacons, setBeaconUID, loadingUpdateUID, errorMessageUpdateUID } = props;
+	const {
+		beacons,
+		fetchBeacons,
+		loadingBeacons,
+		setBeaconUID,
+		loadingUpdateUID,
+		errorMessageUpdateUID,
+		centerObjectViewer,
+	} = props;
 	const classes = useStyles();
 	const [openDialogBeacon, setOpenDialogBeacon] = useState(false);
 	const [beaconInfo, setBeaconInfo] = useState(null);
@@ -42,7 +50,7 @@ const Beacons = (props) => {
 								name={beacon.name}
 								uid={beacon.uid_beacon ? beacon.uid_beacon : null}
 								setBeaconUIDHandler={() => dialogOpenHandler(beacon.name, beacon.uid_beacon, beacon._id)}
-								selectBeaconHandler={() => null}
+								viewBeaconHandler={() => centerObjectViewer(beacon._id)}
 							/>
 						</Grid>
 					);
@@ -103,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchBeacons: () => dispatch(actions.fetchBeacons()),
 		setBeaconUID: (beaconID, beaconUID) => dispatch(actions.setBeaconUID(beaconID, beaconUID)),
+		centerObjectViewer: (beaconId) => dispatch(actions.centerSelectedObjectBimViewer(beaconId)),
 	};
 };
 

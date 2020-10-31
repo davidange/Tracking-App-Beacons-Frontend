@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 const BeaconCard = (props) => {
 	const classes = useStyles();
-	const { isBeaconActive, name, uid, setBeaconUIDHandler, selectBeaconHandler } = props;
+	const { isBeaconActive, name, uid, setBeaconUIDHandler, viewBeaconHandler } = props;
 
 	const inactiveCard = clsx(classes.root, classes.inactiveCard);
 	return (
@@ -29,8 +29,8 @@ const BeaconCard = (props) => {
 				<Button size="small" onClick={setBeaconUIDHandler} color="primary">
 					Set Beacon UID
 				</Button>
-				<Button size="small" onClick={selectBeaconHandler} color="primary">
-					Select
+				<Button size="small" onClick={viewBeaconHandler} color="primary">
+					View
 				</Button>
 			</CardActions>
 		</Card>

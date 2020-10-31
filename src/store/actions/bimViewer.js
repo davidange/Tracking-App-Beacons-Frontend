@@ -10,9 +10,9 @@ export const setSelectedObjectBimViewer = (objectId) => {
 export const centerSelectedObjectBimViewer = (objectId) => {
 	return (dispatch) => {
 		dispatch(setSelectedObjectBimViewer(objectId));
-		return {
+		dispatch({
 			type: actionTypes.CENTER_SELECTED_OBJECT_BIMVIEWER,
-		};
+		});
 	};
 };
 

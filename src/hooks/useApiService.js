@@ -28,6 +28,7 @@ const useApiService = (environment) => {
 	);
 
 	useEffect(() => {
+		console.log('Signin in')
 		isMountedRef.current = true;
 		signin();
 

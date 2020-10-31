@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useBimplusExplorer from "../../../../hooks/useBimplusExplorer";
 
 const BimplusViewer = (props) => {
 	const { teamId, projectId } = props;
+	// eslint-disable-next-line no-unused-vars
 	const [explorer, isExplorerLoaded] = useBimplusExplorer(teamId, projectId);
 
 	const renderer = (

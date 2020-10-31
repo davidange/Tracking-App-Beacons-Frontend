@@ -33,6 +33,7 @@ const useBimplusExplorer = (teamId, projectId) => {
 			tempExplorer.load(teamId, projectId);
 
 			tempExplorer.onDataLoaded = () => {
+				console.log('EXPLORER IS UP')
 				setIsExplorerLoaded(true);
 			};
 
@@ -50,7 +51,6 @@ const useBimplusExplorer = (teamId, projectId) => {
 	//Center ObjectHandler
 	useEffect(() => {
 		if (explorer && actionBimViewer === "CenterObject" && selectedObject) {
-			console.log('Shit has been centered')
 			explorer.centerObject(selectedObject, true);
 			hasBeenSelectedHandler();
 		}
