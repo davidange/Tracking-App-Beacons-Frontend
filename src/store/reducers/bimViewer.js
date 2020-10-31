@@ -32,7 +32,7 @@ const reducer = (state = initialState, action) => {
 			return setSelectedObjectBimViewer(state, action);
 		case actions.CENTER_SELECTED_OBJECT_BIMVIEWER:
 			return centerSelectedObjectBimViewer(state, action);
-		case actions.clearActionBimViewer:
+		case actions.CLEAR_ACTION_BIMVIEWER:
 			return clearActionBimViewer(state, action);
 		default:
 			return state;
