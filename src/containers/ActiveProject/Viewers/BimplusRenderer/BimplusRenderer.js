@@ -6,6 +6,13 @@ const BimplusRenderer = (props) => {
 	// eslint-disable-next-line no-unused-vars
 	const [viewportService, isLoadingRenderer] = useBimplusRenderer(projectId, domElementId, teamId);
 
+	//resize Renderer
+	window.addEventListener("resize", () => {
+		if (!isLoadingRenderer) {
+			viewportService.updateSize();
+		}
+	});
+
 	const renderer = (
 		<div
 			id={domElementId}

@@ -39,36 +39,6 @@ const useBimplusExplorer = (teamId, projectId, domElementId) => {
 	}, [explorerService.explorer, projectId, teamId, explorerService, setSelectedObject]);
 
 
-
-	// useEffect(() => {
-	// 	if (statusApi === "success" && apiService.isAuthorized()) {
-	// 		console.log("SETTING EXPLORER UP");
-	// 		let tempCommunicationClient = new WebClient.ExternalClient("MyClient");
-	// 		let tempExplorer = new WebClient.BimExplorer(
-	// 			domElementId,
-	// 			apiService.api.getAccessToken(),
-	// 			tempCommunicationClient,
-	// 			environment
-	// 		);
-	// 		tempExplorer.load(teamId, projectId);
-
-	// 		tempExplorer.onDataLoaded = () => {
-	// 			console.log("EXPLORER IS UP");
-	// 			setIsExplorerLoaded(true);
-	// 		};
-
-	// 		tempExplorer.onObjectSelected = (id /*, multiSelect, selected*/) => {
-	// 			setSelectedObject(id);
-	// 		};
-
-	// 		tempCommunicationClient.initialize();
-
-	// 		setComunicationClient(tempCommunicationClient);
-	// 		setExplorer(tempExplorer);
-	// 	}
-	// }, [apiService, statusApi, projectId, teamId, domElementId, setSelectedObject]);
-
-	//Center ObjectHandler
 	useEffect(() => {
 		if (explorerService.explorer && actionBimViewer === "CenterObject" && selectedObject) {
 			explorerService.explorer.centerObject(selectedObject, true);
