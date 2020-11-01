@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import * as WebSdk from "bimplus-websdk";
-const useApiService = (environment) => {
+const useApiService = (environment, teamSlug) => {
 	const [api] = useState(new WebSdk.Api(WebSdk.createDefaultConfig(environment)));
 	const [statusApi, setStatusApi] = useState("idle");
 	const isMountedRef = useRef(null);
@@ -14,6 +14,9 @@ const useApiService = (environment) => {
 					let token = response.access_token;
 					if (isMountedRef.current) {
 						api.setAccessToken(token);
+						if (teamSlug) {
+							api.setTeamSlug(teamSlug);
+						}
 						setStatusApi("success");
 					}
 				})
@@ -26,9 +29,8 @@ const useApiService = (environment) => {
 		},
 		[api]
 	);
-
 	useEffect(() => {
-		console.log('Signin in')
+		console.log("Signin in");
 		isMountedRef.current = true;
 		signin();
 

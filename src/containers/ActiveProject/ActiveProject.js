@@ -12,6 +12,7 @@ import Container from "@material-ui/core/Container";
 
 import Beacons from "./Beacons/Beacons";
 import BimplusViewer from "./Viewers/BimplusViewer/BimplusViewer";
+import BimplusRenderer from "./Viewers/BimplusRenderer/BimplusRenderer";
 
 const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, setActiveProjectMode, match } = props;
@@ -63,6 +64,18 @@ const ActiveProject = (props) => {
 												teamId={activeProject.team_id}
 												projectId={activeProject._id}
 												domElementId={"bimViewer"}
+											/>
+										)}
+									/>
+								) : null}
+								{match.params.mode === "Tracking" && activeProject ? (
+									<Route
+										path={`${match.path}`}
+										render={() => (
+											<BimplusRenderer
+												teamSlug={activeProject.slug}
+												projectId={activeProject._id}
+												domElementId={"bimRenderer"}
 											/>
 										)}
 									/>
