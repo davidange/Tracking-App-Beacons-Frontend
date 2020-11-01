@@ -58,7 +58,13 @@ const ActiveProject = (props) => {
 								{match.params.mode === "ProjectSetup" && activeProject ? (
 									<Route
 										path={`${match.path}`}
-										render={() => <BimplusViewer teamId={activeProject.team_id} projectId={activeProject._id} />}
+										render={() => (
+											<BimplusViewer
+												teamId={activeProject.team_id}
+												projectId={activeProject._id}
+												domElementId={"bimViewer"}
+											/>
+										)}
 									/>
 								) : null}
 							</Switch>

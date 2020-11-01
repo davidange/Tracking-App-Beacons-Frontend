@@ -5,7 +5,7 @@ import useApiService from "./useApiService";
 import { useSelector, useDispatch } from "react-redux";
 
 const environment = "stage";
-const useBimplusExplorer = (teamId, projectId) => {
+const useBimplusExplorer = (teamId, projectId,domElementId) => {
 	const [api, statusApi] = useApiService(environment);
 	// eslint-disable-next-line no-unused-vars
 	const [comunicationClient, setComunicationClient] = useState(null);
@@ -25,7 +25,7 @@ const useBimplusExplorer = (teamId, projectId) => {
 			console.log("SETTING EXPLORER UP");
 			let tempCommunicationClient = new WebClient.ExternalClient("MyClient");
 			let tempExplorer = new WebClient.BimExplorer(
-				"bimplusExplorer",
+				domElementId,
 				api.getAccessToken(),
 				tempCommunicationClient,
 				environment
@@ -46,7 +46,7 @@ const useBimplusExplorer = (teamId, projectId) => {
 			setComunicationClient(tempCommunicationClient);
 			setExplorer(tempExplorer);
 		}
-	}, [api, statusApi, projectId, teamId, explorer, setSelectedObject]);
+	}, [api, statusApi, projectId, teamId, domElementId,explorer, setSelectedObject]);
 
 	//Center ObjectHandler
 	useEffect(() => {
