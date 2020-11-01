@@ -1,15 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
-import * as WebClient from "bimplus-webclient";
 import * as actions from "../../store/actions/index";
 import useApiService from "../useApiService";
+import ExplorerService from "./ExplorerService";
 import { useSelector, useDispatch } from "react-redux";
 
 const environment = "stage";
 const useBimplusExplorer = (teamId, projectId, domElementId) => {
 	const [apiService, statusApi] = useApiService();
 	// eslint-disable-next-line no-unused-vars
-	const [comunicationClient, setComunicationClient] = useState(null);
-	const [explorer, setExplorer] = useState(null);
+	const [explorerService, setExplorerService] = useState({ explorer: null, objectSelected: null });
 	const [isExplorerLoaded, setIsExplorerLoaded] = useState(false);
 
 	const selectedObject = useSelector((state) => state.bimViewer.selectedObject);
@@ -20,44 +19,64 @@ const useBimplusExplorer = (teamId, projectId, domElementId) => {
 		dispatch,
 	]);
 
-
+	//setup Explorer
 	useEffect(() => {
 		if (statusApi === "success" && apiService.isAuthorized()) {
-			console.log("SETTING EXPLORER UP");
-			let tempCommunicationClient = new WebClient.ExternalClient("MyClient");
-			let tempExplorer = new WebClient.BimExplorer(
-				domElementId,
-				apiService.api.getAccessToken(),
-				tempCommunicationClient,
-				environment
-			);
-			tempExplorer.load(teamId, projectId);
-
-			tempExplorer.onDataLoaded = () => {
-				console.log("EXPLORER IS UP");
-				setIsExplorerLoaded(true);
-			};
-
-			tempExplorer.onObjectSelected = (id /*, multiSelect, selected*/) => {
-				setSelectedObject(id);
-			};
-
-			tempCommunicationClient.initialize();
-
-			 setComunicationClient(tempCommunicationClient);
-			 setExplorer(tempExplorer);
+			setExplorerService(new ExplorerService(apiService, domElementId, environment));
+			setIsExplorerLoaded(true);
+			console.log("Explorer has been Set up");
 		}
-	}, [apiService, statusApi, projectId, teamId, domElementId, setSelectedObject]);
+	}, [statusApi, apiService, domElementId]);
+
+	//load Project
+	useEffect(() => {
+		if (explorerService.explorer) {
+			explorerService.loadProject(projectId, teamId);
+			explorerService.setOnObjectSelectedFunction((id) => {
+				setSelectedObject(id);
+			});
+		}
+	}, [explorerService.explorer, projectId, teamId, explorerService, setSelectedObject]);
+
+
+
+	// useEffect(() => {
+	// 	if (statusApi === "success" && apiService.isAuthorized()) {
+	// 		console.log("SETTING EXPLORER UP");
+	// 		let tempCommunicationClient = new WebClient.ExternalClient("MyClient");
+	// 		let tempExplorer = new WebClient.BimExplorer(
+	// 			domElementId,
+	// 			apiService.api.getAccessToken(),
+	// 			tempCommunicationClient,
+	// 			environment
+	// 		);
+	// 		tempExplorer.load(teamId, projectId);
+
+	// 		tempExplorer.onDataLoaded = () => {
+	// 			console.log("EXPLORER IS UP");
+	// 			setIsExplorerLoaded(true);
+	// 		};
+
+	// 		tempExplorer.onObjectSelected = (id /*, multiSelect, selected*/) => {
+	// 			setSelectedObject(id);
+	// 		};
+
+	// 		tempCommunicationClient.initialize();
+
+	// 		setComunicationClient(tempCommunicationClient);
+	// 		setExplorer(tempExplorer);
+	// 	}
+	// }, [apiService, statusApi, projectId, teamId, domElementId, setSelectedObject]);
 
 	//Center ObjectHandler
 	useEffect(() => {
-		if (explorer && actionBimViewer === "CenterObject" && selectedObject) {
-			explorer.centerObject(selectedObject, true);
+		if (explorerService.explorer && actionBimViewer === "CenterObject" && selectedObject) {
+			explorerService.explorer.centerObject(selectedObject, true);
 			hasBeenSelectedHandler();
 		}
-	}, [explorer, actionBimViewer, selectedObject, hasBeenSelectedHandler]);
+	}, [explorerService.explorer, actionBimViewer, selectedObject, hasBeenSelectedHandler]);
 
-	return [explorer, isExplorerLoaded];
+	return [explorerService.explorer, isExplorerLoaded];
 };
 
 export default useBimplusExplorer;
