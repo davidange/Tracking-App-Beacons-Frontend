@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import * as Renderer from "bimplus-renderer";
-import useApiService from "./useApiService";
+import useApiService from "../useApiService";
 
 const viewportSettings = {
 	defaultOpacity: 0.5,
@@ -96,7 +96,7 @@ const units = {
 
 const environment = "stage";
 const useBimplusRenderer = (projectId, domElementId,teamSlug) => {
-	const [api, statusApi] = useApiService(environment,teamSlug);
+	const [api, statusApi] = useApiService(teamSlug);
 	const [renderer, setRenderer] = useState(null);
 	const [loader, setLoader] = useState(null);
 	const [projectData, setProjectData] = useState(null);

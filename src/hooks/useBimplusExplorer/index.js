@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import * as WebClient from "bimplus-webclient";
-import * as actions from "../store/actions/index";
-import useApiService from "./useApiService";
+import * as actions from "../../store/actions/index";
+import useApiService from "../useApiService";
 import { useSelector, useDispatch } from "react-redux";
 
 const environment = "stage";
-const useBimplusExplorer = (teamId, projectId,domElementId) => {
-	const [api, statusApi] = useApiService(environment);
+const useBimplusExplorer = (teamId, projectId, domElementId) => {
+	const [apiService, statusApi] = useApiService();
 	// eslint-disable-next-line no-unused-vars
 	const [comunicationClient, setComunicationClient] = useState(null);
 	const [explorer, setExplorer] = useState(null);
@@ -20,20 +20,21 @@ const useBimplusExplorer = (teamId, projectId,domElementId) => {
 		dispatch,
 	]);
 
+
 	useEffect(() => {
-		if (statusApi === "success" && !explorer) {
+		if (statusApi === "success" && apiService.isAuthorized()) {
 			console.log("SETTING EXPLORER UP");
 			let tempCommunicationClient = new WebClient.ExternalClient("MyClient");
 			let tempExplorer = new WebClient.BimExplorer(
 				domElementId,
-				api.getAccessToken(),
+				apiService.api.getAccessToken(),
 				tempCommunicationClient,
 				environment
 			);
 			tempExplorer.load(teamId, projectId);
 
 			tempExplorer.onDataLoaded = () => {
-				console.log('EXPLORER IS UP')
+				console.log("EXPLORER IS UP");
 				setIsExplorerLoaded(true);
 			};
 
@@ -43,10 +44,10 @@ const useBimplusExplorer = (teamId, projectId,domElementId) => {
 
 			tempCommunicationClient.initialize();
 
-			setComunicationClient(tempCommunicationClient);
-			setExplorer(tempExplorer);
+			 setComunicationClient(tempCommunicationClient);
+			 setExplorer(tempExplorer);
 		}
-	}, [api, statusApi, projectId, teamId, domElementId,explorer, setSelectedObject]);
+	}, [apiService, statusApi, projectId, teamId, domElementId, setSelectedObject]);
 
 	//Center ObjectHandler
 	useEffect(() => {
