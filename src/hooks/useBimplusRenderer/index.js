@@ -1,147 +1,45 @@
 import { useState, useEffect, useCallback } from "react";
-import * as Renderer from "bimplus-renderer";
 import useApiService from "../useApiService";
+import ViewportService from "./ViewportService";
 
-const viewportSettings = {
-	defaultOpacity: 0.5,
-	disciplineOpacity: 0.1,
-	pinSizeScaleFactor: 2,
-	maxWebGLBufferSize: 350e12,
-	mixedModelMode: true,
-	pinFlyToDistance: 20000,
-	nearClippingPlane: 0.01,
+const useBimplusRenderer = (projectId, domElementId, teamId) => {
+	const [apiService, statusApi] = useApiService();
+	const [viewportService, setViewportService] = useState(null);
 
-	slideThmbSize: [180, 112],
-	units: {
-		mm: {
-			weight: {
-				multiplicator: 0.001,
-				unit: "kg",
-			},
-			length: {
-				multiplicator: 0.001,
-				unit: "m",
-			},
-			width: {
-				multiplicator: 0.001,
-				unit: "m",
-			},
-			height: {
-				multiplicator: 0.001,
-				unit: "m",
-			},
-			area: {
-				multiplicator: 0.000001,
-				unit: "m²",
-			},
-			volume: {
-				multiplicator: 1e-9,
-				unit: "m³",
-			},
-		},
-		inch: {},
-	},
-};
-const units = {
-	Metric: {
-		weight: {
-			multiplicator: 0.001,
-			precision: 2,
-			unit: "kg",
-		},
-		length: {
-			multiplicator: 0.001,
-			precision: 2,
-			unit: "m",
-		},
-		width: {
-			multiplicator: 0.001,
-			precision: 2,
-			unit: "m",
-		},
-		height: {
-			multiplicator: 0.001,
-			precision: 2,
-			unit: "m",
-		},
-		area: {
-			multiplicator: 0.000001,
-			precision: 2,
-			unit: "m²",
-		},
-		volume: {
-			multiplicator: 1e-9,
-			precision: 2,
-			unit: "m³",
-		},
-	},
-	Imperial: {
-		length: {
-			multiplicator: 0.00328083989,
-			precision: 2,
-			unit: "feet",
-		},
-		width: {
-			multiplicator: 0.00328083989,
-			precision: 2,
-			unit: "feet",
-		},
-		height: {
-			multiplicator: 0.00328083989,
-			precision: 2,
-			unit: "feet",
-		},
-	},
-};
+	const [isLoadingApiSetup, setIsLoadingApiSetup] = useState(true);
+	const [isLoadingRenderer, setIsLoadingRenderer] = useState(true);
 
-const environment = "stage";
-const useBimplusRenderer = (projectId, domElementId,teamSlug) => {
-	const [api, statusApi] = useApiService(teamSlug);
-	const [renderer, setRenderer] = useState(null);
-	const [loader, setLoader] = useState(null);
-	const [projectData, setProjectData] = useState(null);
-
-	const initRender = useCallback(
-		async (projectId, domElementId) => {
-			const tempRenderer = new Renderer.Viewport3D({
-				settings: viewportSettings,
-				units: units.Metric,
-				domElementId,
-				GPUPick: true,
-			});
-            const tempLoader = new Renderer.ContentLoader(api, tempRenderer);
-            console.log('LOADER');
-            console.log(tempLoader)
-			const tempProjectData = await tempLoader.loadProject(projectId);
-
-			let promises = [];
-			//-----show all project models
-			tempProjectData.forEachModel((model) => {
-				let layers = model.getLayerArray();
-				model.setVisible(true);
-				model.visible = true;
-
-				model.forEachTopologyLeafNode((node) => {
-					promises.push(tempLoader.loadTopologyNode(tempProjectData, node, layers));
-				});
-			});
-			await Promise.all(promises);
-            console.log('RENDERER IS INITIALIZED!')
-			setLoader(tempLoader);
-			setRenderer(tempRenderer);
-			setProjectData(tempProjectData);
-		},
-		[api]
-	);
-
+	//setup ApiService
 	useEffect(() => {
-		if (statusApi === "success" && !renderer) {
-            console.log('Init RENDER!!')
-			initRender(projectId, domElementId);
+		if (statusApi === "success" && apiService.isAuthorized()) {
+			const setApiTeam = async () => {
+				await apiService.setActTeamById(teamId);
+				setIsLoadingApiSetup(false);
+			};
+			setApiTeam();
 		}
-	}, [initRender, projectId, domElementId, renderer,statusApi]);
+	}, [apiService, statusApi, teamId]);
 
-	return [renderer];
+	//setup ViewportService
+	useEffect(() => {
+		if (!isLoadingApiSetup && !viewportService) {
+			setViewportService(new ViewportService(apiService));
+		}
+	}, [isLoadingApiSetup, viewportService, apiService]);
+
+	//setup Renderer
+	useEffect(() => {
+		if (viewportService) {
+			const setRenderer = async () => {
+				await viewportService.initRenderer(projectId, domElementId);
+				setIsLoadingRenderer(false);
+				
+			};
+			setRenderer();
+		}
+	}, [projectId, domElementId, viewportService]);
+
+	return [viewportService, isLoadingRenderer];
 };
 
 export default useBimplusRenderer;

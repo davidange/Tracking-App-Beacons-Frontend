@@ -2,9 +2,9 @@ import React from "react";
 import useBimplusRenderer from "../../../../hooks/useBimplusRenderer";
 
 const BimplusRenderer = (props) => {
-	const {  projectId,domElementId,teamSlug} = props;
+	const { projectId, domElementId, teamId } = props;
 	// eslint-disable-next-line no-unused-vars
-	const [rendererObject] = useBimplusRenderer( projectId,domElementId,teamSlug);
+	const [viewportService, isLoadingRenderer] = useBimplusRenderer(projectId, domElementId, teamId);
 
 	const renderer = (
 		<div

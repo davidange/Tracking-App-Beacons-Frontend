@@ -73,7 +73,7 @@ const ActiveProject = (props) => {
 										path={`${match.path}`}
 										render={() => (
 											<BimplusRenderer
-												teamSlug={activeProject.slug}
+												teamId={activeProject.team_id}
 												projectId={activeProject._id}
 												domElementId={"bimRenderer"}
 											/>

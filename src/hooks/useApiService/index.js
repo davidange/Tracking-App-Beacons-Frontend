@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import ApiService from "./ApiService";
-const useApiService = (teamSlug) => {
+const useApiService = () => {
 	const [apiService] = useState(new ApiService());
 	const [statusApi, setStatusApi] = useState("idle");
 	const isMountedRef = useRef(null);
