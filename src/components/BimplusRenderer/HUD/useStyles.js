@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
 	Hud: {
-		position: "fixed",
+		position: "absolute",
 		marginTop: "10px",
 		marginLeft: "10px",
 		zIndex: 2,

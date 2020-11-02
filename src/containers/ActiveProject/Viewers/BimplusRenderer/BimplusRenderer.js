@@ -13,7 +13,7 @@ const BimplusRenderer = (props) => {
 			style={{ border: 0, height: "100%", width: "100%", backgroundColor: "#adadad", margin: 0, padding: 0 }}
 		></div>
 	);
-	let hud = isLoadingRenderer ? null : <Hud />;
+	let hud = isLoadingRenderer ? null : <Hud viewportService={viewportService} />;
 
 	return (
 		<React.Fragment>

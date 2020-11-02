@@ -151,7 +151,14 @@ export default class ViewportService {
     * handle object selection
     --------------------------------------------------------------------------*/
 	onSelectObject = () => {
+		// Try to get the selected object on top of the selection stack
+		const selectedObject =
+			this.viewport.objectSets.selectedObjects.length > 0
+				? this.viewport.objectSets.selectedObjects[this.viewport.objectSets.selectedObjects.length - 1]
+				: undefined;
 		console.log(`Object selected.`);
+		console.log(this.viewport);
+		console.log(selectedObject);
 	};
 
 	//** zoom to selected Objects */
@@ -162,6 +169,10 @@ export default class ViewportService {
 	centerObject = (objectId) => {
 		const objectIdArray = [objectId];
 		this.viewport.centerObjects(objectIdArray);
+	};
+
+	setSelectedObject = (objectId) => {
+		this.viewport.highlightObject(objectId);
 	};
 	/**--------------------------------------------------------------------------
     * update viewport size
@@ -235,6 +246,7 @@ export default class ViewportService {
 	sectionFree = () => {
 		this.viewport.setSectionAxis("Free");
 	};
+
 
 	// Switch on isolation mode - all other elements will be grey and transparent
 	isolate = () => {

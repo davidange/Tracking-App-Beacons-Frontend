@@ -7,7 +7,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 
-const ExpandibleButton = (props) => {
+const ExpandibleButtonToggle = (props) => {
 	const { listOptions } = props;
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
@@ -76,4 +76,4 @@ const ExpandibleButton = (props) => {
 	);
 };
 
-export default ExpandibleButton;
+export default ExpandibleButtonToggle;
