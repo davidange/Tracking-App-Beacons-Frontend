@@ -108,9 +108,9 @@ export default class ViewportService {
 	/**--------------------------------------------------------------------------
     * get viewport object
     --------------------------------------------------------------------------*/
-	getViewportObject() {
+	getViewportObject = () => {
 		return this.viewport;
-	}
+	};
 
 	/**--------------------------------------------------------------------------
     * init bimplus renderer
@@ -150,46 +150,112 @@ export default class ViewportService {
 	/**--------------------------------------------------------------------------
     * handle object selection
     --------------------------------------------------------------------------*/
-	onSelectObject() {
+	onSelectObject = () => {
 		console.log(`Object selected.`);
-	}
+	};
 
+	//** zoom to selected Objects */
+	centerObjects = (objectsId) => {
+		this.viewport.centerObjects(objectsId);
+	};
+
+	centerObject = (objectId) => {
+		const objectIdArray = [objectId];
+		this.viewport.centerObjects(objectIdArray);
+	};
 	/**--------------------------------------------------------------------------
     * update viewport size
     --------------------------------------------------------------------------*/
-	updateSize() {
+	updateSize = () => {
 		this.viewport.setViewportSize();
-	}
+	};
 
 	/**--------------------------------------------------------------------------
     * reset view
     --------------------------------------------------------------------------*/
-	resetView() {
+	resetView = () => {
 		this.viewport.resetSelectionMode();
 		this.viewport.restoreViewbox();
 		this.viewport.resetClashScene();
 		this.viewport.setRotationCenter(null);
 		// this.setView("x");
-	}
+	};
 
 	/**--------------------------------------------------------------------------
-    * set view
-    --------------------------------------------------------------------------*/
-	setView(view) {
+    * set view (x,y,z,perspectiveView(xyz))
+	--------------------------------------------------------------------------*/
+	_setView = (view) => {
 		this.viewport.setCameraResetAxis(view);
-	}
+	};
 
+	//Set camera to Front View
+	frontView = () => {
+		this._setView("x");
+	};
+	//Set camera to Top View
+	topView = () => {
+		this._setView("y");
+	};
+	//Set camera to Side View
+	sideView = () => {
+		this._setView("z");
+	};
+
+	perspectiveView = () => {
+		this._setView("xyz");
+	};
+
+	//********Selection Modes: */
+
+	resetSelectionMode = () => {
+		this.viewport.resetSelectionMode();
+	};
 	/**--------------------------------------------------------------------------
-    * set section axis
+    * set section axis (x,y,z)
     --------------------------------------------------------------------------*/
-	setSectionAxis(axis) {
+	_setSectionAxis = (axis) => {
 		this.viewport.setSectionAxis(axis);
-	}
+		if (this.viewport.checkSelectionMode("section") === false) {
+			this.viewport.setSelectionMode("section");
+		}
+	};
+	//**Set Section Plane to X axis */
+	sectionX = () => {
+		this._setSectionAxis("x");
+	};
+	//**Set Section Plane to Y axis */
+	sectionY = () => {
+		this._setSectionAxis("y");
+	};
+	//**Set Section Plane to Z axis */
+	sectionZ = () => {
+		this._setSectionAxis("z");
+	};
+	//**Set Section Plane to free axis */
+	sectionFree = () => {
+		this.viewport.setSectionAxis("Free");
+	};
+
+	// Switch on isolation mode - all other elements will be grey and transparent
+	isolate = () => {
+		this.viewport.setSelectionMode("isolated");
+	};
+
+	// Switch on hidden isolation mode - all other elements will be hidden
+	isolateHide = () => {
+		this.viewport.setSelectionMode("hideIsolated");
+	};
+
+	// Switch on clipping isolation mode - all elements outside the isolated elements
+	// bounding box will be clipped
+	isolateClippingBox = () => {
+		this.viewport.setSelectionMode("clipIsolated");
+	};
 
 	/**--------------------------------------------------------------------------
     * set model visibility 
     --------------------------------------------------------------------------*/
-	setModelVisibility(modelId, value) {
+	setModelVisibility = (modelId, value) => {
 		this.projectData.forEachModel((model) => {
 			if (model.id === modelId) {
 				model.forEachLayer((layer) => {
@@ -197,23 +263,23 @@ export default class ViewportService {
 				});
 			}
 		});
-	}
+	};
 
 	/**--------------------------------------------------------------------------
     * models to show
     --------------------------------------------------------------------------*/
-	showModels(models) {
+	showModels = (models) => {
 		this.projectData.forEachModel((model) => {
 			let modelVisible = models.find((item) => item.id === model.id);
 			this.setModelVisibility(model.id, modelVisible != null);
 		});
 		this.viewport.draw();
-	}
+	};
 
 	/**--------------------------------------------------------------------------
     * get list of project models
     --------------------------------------------------------------------------*/
-	getProjectModels() {
+	getProjectModels = () => {
 		let decoratedModels = [];
 		this.projectData.forEachModel((model) => {
 			model.forEachLayer((layer) => (model.visible = layer.isVisible()));
@@ -221,5 +287,5 @@ export default class ViewportService {
 		});
 
 		return decoratedModels;
-	}
+	};
 }

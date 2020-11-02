@@ -55,32 +55,18 @@ const ActiveProject = (props) => {
 					</Grid>
 					<Grid item xs={12} sm={8}>
 						<Paper className={fixedHeightPaper}>
-							<Switch>
-								{match.params.mode === "ProjectSetup" && activeProject ? (
-									<Route
-										path={`${match.path}`}
-										render={() => (
-											<BimplusViewer
-												teamId={activeProject.team_id}
-												projectId={activeProject._id}
-												domElementId={"bimViewer"}
-											/>
-										)}
-									/>
-								) : null}
-								{match.params.mode === "Tracking" && activeProject ? (
-									<Route
-										path={`${match.path}`}
-										render={() => (
-											<BimplusRenderer
-												teamId={activeProject.team_id}
-												projectId={activeProject._id}
-												domElementId={"bimRenderer"}
-											/>
-										)}
-									/>
-								) : null}
-							</Switch>
+							{activeProject ? (
+								<Route
+									path={`${match.path}`}
+									render={() => (
+										<BimplusRenderer
+											teamId={activeProject.team_id}
+											projectId={activeProject._id}
+											domElementId={"bimRenderer"}
+										/>
+									)}
+								/>
+							) : null}
 						</Paper>
 					</Grid>
 				</Grid>
