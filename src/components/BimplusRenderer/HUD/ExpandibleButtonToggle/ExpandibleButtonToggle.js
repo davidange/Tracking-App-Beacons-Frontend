@@ -6,12 +6,22 @@ import Popper from "@material-ui/core/Popper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 const ExpandibleButtonToggle = (props) => {
 	const { listOptions } = props;
 	const classes = useStyles();
 	const [open, setOpen] = useState(false);
 	const anchorRef = useRef(null);
+
+	const [toggleState, setToggleState] = useState(
+		listOptions.reduce((prev, curr) => ({ ...prev, [curr.name]: true }), {})
+	);
+
+	const handleChange = (event) => {
+		setToggleState({ ...toggleState, [event.target.name]: event.target.checked });
+	};
 
 	const handleToggle = () => {
 		setOpen((prevOpen) => !prevOpen);
@@ -21,7 +31,6 @@ const ExpandibleButtonToggle = (props) => {
 		if (anchorRef.current && anchorRef.current.contains(event.target)) {
 			return;
 		}
-
 		setOpen(false);
 	};
 	// return focus to the button when we transitioned from !open -> open
@@ -39,18 +48,24 @@ const ExpandibleButtonToggle = (props) => {
 		() =>
 			listOptions.map((option) => {
 				return (
-					<MenuItem
-						onClick={(event) => {
-							handleClose(event);
-							option.function();
-						}}
-						key={option.name}
-					>
-						{option.name}
+					<MenuItem key={option.name}>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={toggleState[option.name]}
+									onChange={(event) => {
+										handleChange(event);
+										//option.function();
+									}}
+									name={option.name}
+								/>
+							}
+							label={option.name}
+						/>
 					</MenuItem>
 				);
 			}),
-		[listOptions]
+		[listOptions, toggleState, handleChange]
 	);
 
 	return (

@@ -1,13 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import useStyles from "./useStyles";
 import ExpandibleButton from "./ExpandibleButton/ExpandibleButton";
+
 import Fab from "@material-ui/core/Fab";
 import VideocamIcon from "@material-ui/icons/Videocam";
 import FlipIcon from "@material-ui/icons/Flip";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const Hud = (props) => {
 	const classes = useStyles();
 	const { viewportService } = props;
+	const [modelMenu, setModelMenu] = useState(null);
 
 	const viewMenu = useMemo(
 		() => [
@@ -61,6 +64,28 @@ const Hud = (props) => {
 		[viewportService]
 	);
 
+	const viewModesMenu = useMemo(
+		() => [
+			{
+				name: "Reset",
+				function: viewportService.resetSelectionMode,
+			},
+			{
+				name: "Isolate",
+				function: viewportService.isolate,
+			},
+			{
+				name: "Clipping Box",
+				function: viewportService.isolateHide,
+			},
+			{
+				name: "Hide Unisolated",
+				function: viewportService.isolateClippingBox,
+			},
+		],
+		[viewportService]
+	);
+
 	return (
 		<div className={classes.Hud}>
 			<ExpandibleButton listOptions={viewMenu}>
@@ -71,6 +96,11 @@ const Hud = (props) => {
 			<ExpandibleButton listOptions={sectionViewMenu}>
 				<Fab size="small" color="secondary" aria-label="add" className={classes.margin}>
 					<FlipIcon />
+				</Fab>
+			</ExpandibleButton>
+			<ExpandibleButton listOptions={viewModesMenu}>
+				<Fab size="small" color="secondary" aria-label="add" className={classes.margin}>
+					<VisibilityIcon />
 				</Fab>
 			</ExpandibleButton>
 		</div>
