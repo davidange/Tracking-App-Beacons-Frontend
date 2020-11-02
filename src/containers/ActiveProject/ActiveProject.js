@@ -11,7 +11,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 
 import Beacons from "./Beacons/Beacons";
-import BimplusViewer from "./Viewers/BimplusViewer/BimplusViewer";
 import BimplusRenderer from "./Viewers/BimplusRenderer/BimplusRenderer";
 
 const ActiveProject = (props) => {
