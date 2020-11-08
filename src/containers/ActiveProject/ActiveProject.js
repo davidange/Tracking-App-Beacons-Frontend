@@ -9,9 +9,13 @@ import ProjectInfoCard from "../../components/ProjectTitleInfo/ProjectTitleInfo"
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-
 import Beacons from "./Beacons/Beacons";
 import BimplusViewer from "./Viewers/BimplusViewer/BimplusViewer";
+import BeaconModel from "./BeaconModels/BeconModel"
+import Items from "./Items/Items"
+import TrackedUsers from "./TrackedUsers/TrackedUsers"
+
+
 
 const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, setActiveProjectMode, match } = props;
@@ -48,6 +52,15 @@ const ActiveProject = (props) => {
 							<Switch>
 								{match.params.mode === "ProjectSetup" ? (
 									<Route path={`${match.path}/Beacons`} component={Beacons} />
+								) : null}
+								{match.params.mode === "ProjectSetup" ? (
+									<Route path={`${match.path}/BeaconModel`} component={BeaconModel} />
+								) : null}
+								{match.params.mode === "Tracking" ? (
+									<Route path={`${match.path}/Items`} component={Items} />
+								) : null}
+								{match.params.mode === "Tracking" ? (
+									<Route path={`${match.path}/Users`} component={TrackedUsers} />
 								) : null}
 							</Switch>
 						</Paper>
