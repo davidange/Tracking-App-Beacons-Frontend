@@ -9,22 +9,13 @@ import clsx from "clsx";
 
 const TrackedUserCard = (props) => {
 	const classes = useStyles();
-	const { name, id, x, y, z, viewTrackedUserHandler, dialogOpenHandler } = props;
+	const { name, id, viewTrackedUserHandler, dialogOpenHandler } = props;
 
 	return (
 		<Card className={classes.root}>
 			<CardContent>
 				<Typography className={classes.title} variant="h4" gutterBottom>
 					{name}
-				</Typography>
-				<Typography className={classes.pos} color="textSecondary">
-					X:{x}
-				</Typography>
-				<Typography className={classes.pos} color="textSecondary">
-					Y:{y}
-				</Typography>
-				<Typography className={classes.pos} color="textSecondary">
-					Z:{z}
 				</Typography>
 				<Typography variant="body2" component="p">
 					ID:{id}

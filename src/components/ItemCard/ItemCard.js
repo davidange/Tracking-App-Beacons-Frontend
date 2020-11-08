@@ -9,22 +9,13 @@ import clsx from "clsx";
 
 const ItemCard = (props) => {
 	const classes = useStyles();
-	const { name, id, x, y, z, viewItemHandler } = props;
+	const { name, id, viewItemHandler, dialogOpenHandler } = props;
 
 	return (
 		<Card className={classes.root}>
 			<CardContent>
 				<Typography className={classes.title} variant="h4" gutterBottom>
 					{name}
-				</Typography>
-				<Typography className={classes.pos} color="textSecondary">
-					X:{x}
-				</Typography>
-				<Typography className={classes.pos} color="textSecondary">
-					Y:{y}
-				</Typography>
-				<Typography className={classes.pos} color="textSecondary">
-					Z:{z}
 				</Typography>
 				<Typography variant="body2" component="p">
 					ID:{id}
@@ -33,6 +24,9 @@ const ItemCard = (props) => {
 			<CardActions>
 				<Button size="small" onClick={viewItemHandler} color="primary">
 					View
+				</Button>
+				<Button size="small" onClick={dialogOpenHandler} color="primary">
+					Details
 				</Button>
 			</CardActions>
 		</Card>

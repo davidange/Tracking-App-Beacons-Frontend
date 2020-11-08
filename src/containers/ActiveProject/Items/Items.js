@@ -7,10 +7,14 @@ import ItemCard from "../../../components/ItemCard/ItemCard";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import ItemDetailDialog from "./ItemDetailDialog/ItemDetailDialog";
+
 
 const Items = (props) => {
   const { items, fetchItems, loadingItems } = props;
   const classes = useStyles();
+  const [openDialogDetail, setOpenDialogDetail] = useState(false);
+  const [detailInfo, setDetailInfo] = useState(null);
 
   useEffect(() => {
     console.log("Should call fetching Function for items");
@@ -18,6 +22,11 @@ const Items = (props) => {
   }, [fetchItems]);
 
   //Close Dialog box when  Update of UID has been done
+  useEffect(() => {
+		if (!loadingItems) {
+			setOpenDialogDetail(false);
+		}
+	}, [loadingItems]);
 
   let loadingCircle = null;
   if (loadingItems) {
@@ -38,6 +47,7 @@ const Items = (props) => {
                 z={item.location.z}
                 id={item.item_id}
                 viewItemHandler={() => ViewHandler()}
+                dialogOpenHandler={()=>dialogOpenHandler(item.name,item.item_id,item.location.x,item.location.y,item.location.z, item.description)}
               />
             </Grid>
           );
@@ -51,6 +61,15 @@ const Items = (props) => {
     console.log("View Item")
 
   };
+  
+  const dialogOpenHandler = (name, id, x, y, z, description) => {
+		setDetailInfo({ name: name, id: id, x: x, y: y, z: z, description: description });
+		setOpenDialogDetail(true);
+	};
+
+	const dialogCloseHandler = () => {
+		setOpenDialogDetail(false);
+	};
 
 
 
@@ -70,6 +89,18 @@ const Items = (props) => {
         {loadingCircle}
         {listItems}
       </Grid>
+      {detailInfo ? (
+			 	<ItemDetailDialog
+          open={openDialogDetail}
+					closeHandler={dialogCloseHandler}
+          name={detailInfo.name}
+          id={detailInfo.id}
+          description={detailInfo.description}
+          x={detailInfo.x}
+          y={detailInfo.y}
+          z={detailInfo.z}
+				/>
+			) : null}
     </React.Fragment>
   );
 };
