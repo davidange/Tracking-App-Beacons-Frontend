@@ -10,11 +10,10 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Beacons from "./Beacons/Beacons";
-import BimplusViewer from "./Viewers/BimplusViewer/BimplusViewer";
-import BeaconModel from "./BeaconModels/BeconModel"
-import Items from "./Items/Items"
-import TrackedUsers from "./TrackedUsers/TrackedUsers"
-
+import BeaconModel from "./BeaconModels/BeconModel";
+import Items from "./Items/Items";
+import TrackedUsers from "./TrackedUsers/TrackedUsers";
+import BimplusRenderer from "./Viewers/BimplusRenderer/BimplusRenderer";
 
 
 const ActiveProject = (props) => {
@@ -67,14 +66,18 @@ const ActiveProject = (props) => {
 					</Grid>
 					<Grid item xs={12} sm={8}>
 						<Paper className={fixedHeightPaper}>
-							<Switch>
-								{match.params.mode === "ProjectSetup" && activeProject ? (
-									<Route
-										path={`${match.path}`}
-										render={() => <BimplusViewer teamId={activeProject.team_id} projectId={activeProject._id} />}
-									/>
-								) : null}
-							</Switch>
+							{activeProject ? (
+								<Route
+									path={`${match.path}`}
+									render={() => (
+										<BimplusRenderer
+											teamId={activeProject.team_id}
+											projectId={activeProject._id}
+											domElementId={"bimRenderer"}
+										/>
+									)}
+								/>
+							) : null}
 						</Paper>
 					</Grid>
 				</Grid>

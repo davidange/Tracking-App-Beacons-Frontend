@@ -11,6 +11,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
+    "bimplus-renderer": "^0.4.90",
     "bimplus-webclient": "^0.1.4",
     "bimplus-websdk": "0.0.137",
     "clsx": "^1.1.1",
