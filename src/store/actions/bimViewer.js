@@ -21,3 +21,22 @@ export const clearActionBimViewer = () => {
 		type: actionTypes.CLEAR_ACTION_BIMVIEWER,
 	};
 };
+
+export const drawTrackedEntity = (x, y, z, id) => {
+	return {
+		type: actionTypes.DRAW_TRACKED_ENTITY,
+		coordinates: {
+			x: x,
+			y: y,
+			z: z,
+		},
+		id: id,
+	};
+};
+
+export const undrawTrackedEntity = (id) => {
+	return {
+		type: actionTypes.UNDRAW_TRACKED_ENTITY,
+		id: id,
+	};
+};

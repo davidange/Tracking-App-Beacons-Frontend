@@ -48,10 +48,11 @@ export const setActiveProjetMode = (projectMode) => {
 	};
 };
 
-export const startTrackingEntity = (id) => {
+export const startTrackingEntity = (id, entityType) => {
 	return {
 		type: actionTypes.START_TRACKING_ENTITY,
 		id: id,
+		entityType: entityType,
 	};
 };
 
