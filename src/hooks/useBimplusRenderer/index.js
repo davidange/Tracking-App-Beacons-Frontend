@@ -53,6 +53,10 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 	useEffect(() => {
 		const resizeHandler = () => {
 			viewportService.updateSize();
+			// viewportService.drawEntity(0, 0, 0, "1234");
+			 viewportService.drawEntity(10, 0, 0, "12345");
+			// viewportService.drawEntity(20, 10, 0, "1234");
+			// viewportService.removeEntity("12345");
 		};
 		if (!isLoadingRenderer) {
 			window.addEventListener("resize", resizeHandler);

@@ -7,6 +7,8 @@ export default class ViewportService {
 	loader;
 	projectData;
 	apiService;
+	//temp
+	drawnEntities = {};
 
 	viewportSettings = {
 		defaultOpacity: 0.5,
@@ -140,7 +142,6 @@ export default class ViewportService {
 		});
 
 		await Promise.all(promises);
-
 		//--- handle events -----------------------------------------------------------------------
 		$(this.viewport.domElement).on("select3DObject", (e) => {
 			this.onSelectObject();
@@ -157,8 +158,6 @@ export default class ViewportService {
 				? this.viewport.objectSets.selectedObjects[this.viewport.objectSets.selectedObjects.length - 1]
 				: undefined;
 		console.log(`Object selected.`);
-		console.log(this.viewport);
-		console.log(selectedObject);
 	};
 
 	//** zoom to selected Objects */
@@ -247,7 +246,6 @@ export default class ViewportService {
 		this.viewport.setSectionAxis("Free");
 	};
 
-
 	// Switch on isolation mode - all other elements will be grey and transparent
 	isolate = () => {
 		this.viewport.setSelectionMode("isolated");
@@ -264,6 +262,59 @@ export default class ViewportService {
 		this.viewport.setSelectionMode("clipIsolated");
 	};
 
+	/**---------------------------------------------------------------------------
+	 * Draws an Arrow representing the location of the entity
+	 @params x x coordinates
+	 @params y y coordinates
+	 @params z z coordinates
+	 @params objectId id of the object to be Drawn
+	------------------------------------------------------------------------ */
+	drawEntity = (x, y, z, objectId) => {
+		//scale values
+		x = x / 1000;
+		y = y / 1000;
+		z = z / 1000;
+		if (!this.drawnEntities.hasOwnProperty(objectId)) {
+			console.log("CREATING ARROW!!!");
+			//reference to Threejs Renderer
+			const THREE = Renderer.THREE;
+			//creates the arrow
+			const arrow = new THREE.Group();
+			arrow.name = objectId;
+			const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+			//arrow Pointer
+			const geometry1 = new THREE.CylinderGeometry(1, 0, 2, 20, 3);
+			const arrowPointer = new THREE.Mesh(geometry1, material);
+			arrow.add(arrowPointer);
+			//cylinderForArrow
+			const geometry2 = new THREE.CylinderGeometry(0.3, 0.3, 2, 20, 1);
+			const arrowBody = new THREE.Mesh(geometry2, material);
+			//move body of arrow up
+			arrowBody.position.y = 2;
+			arrow.add(arrowBody);
+			arrow.scale.set(1 / 100, 1 / 100, 1 / 100);
+
+			arrow.position.set(x, y, z);
+			this.drawnEntities[objectId] = arrow;
+			this.viewport.customScene.add(arrow);
+
+			//centering Functions:
+			console.log(this.viewport.centerObjects);
+			console.log(this.viewport.centerBoundingSphere);
+			//this.viewport.renderer.render();
+		} else {
+			const arrow = this.drawnEntities[objectId];
+			arrow.position.set(x, y, z);
+		}
+	};
+
+	removeEntity = (objectId) => {
+		if (this.drawnEntities.hasOwnProperty(objectId)) {
+			const arrow = this.drawnEntities[objectId];
+			this.viewport.customScene.remove(arrow);
+			delete this.drawnEntities[objectId];
+		}
+	};
 	/**--------------------------------------------------------------------------
     * set model visibility 
     --------------------------------------------------------------------------*/
