@@ -5,6 +5,7 @@ const initialState = {
 	error: null,
 	loading: false,
 	projectMode: "ProjectSetup",
+	trackedEntities: {},
 };
 
 const setActiveProjectStart = (state, action) => {

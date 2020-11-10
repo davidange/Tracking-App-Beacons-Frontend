@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-instance";
+import { AssignmentReturnSharp } from "@material-ui/icons";
 
 const setActiveProjectStart = () => {
 	return { type: actionTypes.SET_ACTIVE_PROJECT_START };
@@ -44,5 +45,19 @@ export const setActiveProjetMode = (projectMode) => {
 	return {
 		type: actionTypes.SET_ACTIVE_PROJECT_MODE,
 		mode: projectMode,
+	};
+};
+
+export const startTrackingEntity = (id) => {
+	return {
+		type: actionTypes.START_TRACKING_ENTITY,
+		id: id,
+	};
+};
+
+export const stopTrackingEntity = (id) => {
+	return {
+		type: actionTypes.STOP_TRACKING_ENTITY,
+		id: id,
 	};
 };
