@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-instance";
-import { AssignmentReturnSharp } from "@material-ui/icons";
 
 const setActiveProjectStart = () => {
 	return { type: actionTypes.SET_ACTIVE_PROJECT_START };

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useStyles from "./useStyles";
 import { connect } from "react-redux";
 import * as actions from "../../../store/actions/index";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import BeaconCard from "../../../components/BeaconCard/BeaconCard";
+
 import ModelCard from "../../../components/ModelCard/ModelCard";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useApiService from "../useApiService";
 import ViewportService from "./ViewportService";
 
@@ -19,6 +19,8 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 	const previousTrackedEntities = usePrevious(trackedEntities);
 	const dispatch = useDispatch();
 	const hasBeenSelectedHandler = useCallback(() => dispatch(actions.clearActionBimViewer()), [dispatch]);
+	
+	// eslint-disable-next-line no-unused-vars
 	const setSelectedObject = useCallback((objectId) => dispatch(actions.setSelectedObjectBimViewer(objectId)), [
 		dispatch,
 	]);

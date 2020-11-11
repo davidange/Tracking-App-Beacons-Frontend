@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import useStyles from "./useStyles";
 import ExpandibleButton from "./ExpandibleButton/ExpandibleButton";
 
@@ -10,7 +10,6 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 const Hud = (props) => {
 	const classes = useStyles();
 	const { viewportService } = props;
-	const [modelMenu, setModelMenu] = useState(null);
 
 	const viewMenu = useMemo(
 		() => [
