@@ -23,7 +23,7 @@ const TrackedUserCard = (props) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small" onClick={viewTrackedUserHandler} color="primary">
+				<Button size="small" onClick={viewTrackedUserHandler} disabled={!toggleStatus} color="primary">
 					View
 				</Button>
 				<Button size="small" onClick={dialogOpenHandler} color="primary">

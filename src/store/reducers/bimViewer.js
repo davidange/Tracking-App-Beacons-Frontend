@@ -3,6 +3,7 @@ import * as actions from "../actions/actionTypes";
 const initialState = {
 	selectedObject: null,
 	action: null,
+	actionPayload: null,
 };
 
 const setSelectedObjectBimViewer = (state, action) => {
@@ -19,10 +20,20 @@ const centerSelectedObjectBimViewer = (state, action) => {
 	};
 };
 
+const centerSelectedTrackedEntity = (state, action) => {
+	const payload = { id: action.id };
+	return {
+		...state,
+		action: "CenterTrackedEntity",
+		actionPayload: payload,
+	};
+};
+
 const clearActionBimViewer = (state, action) => {
 	return {
 		...state,
 		action: null,
+		actionPayload: null,
 	};
 };
 
@@ -32,6 +43,8 @@ const reducer = (state = initialState, action) => {
 			return setSelectedObjectBimViewer(state, action);
 		case actions.CENTER_SELECTED_OBJECT_BIMVIEWER:
 			return centerSelectedObjectBimViewer(state, action);
+		case actions.CENTER_SELECTED_TRACKED_ENTITY:
+			return centerSelectedTrackedEntity(state, action);
 		case actions.CLEAR_ACTION_BIMVIEWER:
 			return clearActionBimViewer(state, action);
 		default:

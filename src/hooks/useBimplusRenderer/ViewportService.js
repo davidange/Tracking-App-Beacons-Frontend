@@ -172,6 +172,8 @@ export default class ViewportService {
 	centerObject = (objectId) => {
 		const objectIdArray = [objectId];
 		this.viewport.centerObjects(objectIdArray);
+		console.log(this.viewport.centerObjects);
+		console.log(this.viewport.centerBoundingSphere);
 	};
 
 	setSelectedObject = (objectId) => {
@@ -275,10 +277,10 @@ export default class ViewportService {
 	------------------------------------------------------------------------ */
 	drawEntity = (x, y, z, objectId) => {
 		//scale values
-		x = x /this.normFactor;
-		y = y /this.normFactor;
-		z = z /this.normFactor;
-		
+		x = x / this.normFactor;
+		y = y / this.normFactor;
+		z = z / this.normFactor;
+
 		if (!this.drawnEntities.hasOwnProperty(objectId)) {
 			//reference to Threejs Renderer
 			const THREE = Renderer.THREE;
@@ -297,16 +299,12 @@ export default class ViewportService {
 			arrowBody.position.y = 2;
 			arrow.add(arrowBody);
 			arrow.scale.set(1 / 100, 1 / 100, 1 / 100);
+			//compute bounding Sphere
+			arrow.children[0].geometry.computeBoundingSphere();
 
 			arrow.position.set(x, y, z);
 			this.drawnEntities[objectId] = arrow;
 			this.viewport.customScene.add(arrow);
-
-			// //centering Functions:
-			// console.log(this.viewport.centerObjects);
-			// this.viewport.centerObjects([objectId])
-			//  console.log(this.viewport.centerBoundingSphere);
-			// //this.viewport.renderer.render();
 		} else {
 			const arrow = this.drawnEntities[objectId];
 			arrow.position.set(x, y, z);
@@ -318,6 +316,18 @@ export default class ViewportService {
 			const arrow = this.drawnEntities[objectId];
 			this.viewport.customScene.remove(arrow);
 			delete this.drawnEntities[objectId];
+		}
+	};
+
+	centerTrackedEntity = (objectId) => {
+		if (this.drawnEntities.hasOwnProperty(objectId)) {
+			const arrow = this.drawnEntities[objectId];
+			//reference to Threejs Renderer
+			const THREE = Renderer.THREE;
+			//center The arrow
+			const bbox = new THREE.Box3().setFromObject(arrow);
+			const bSphere = bbox.getBoundingSphere(new THREE.Sphere());
+			this.viewport.centerBoundingSphere(bSphere);
 		}
 	};
 	/**--------------------------------------------------------------------------

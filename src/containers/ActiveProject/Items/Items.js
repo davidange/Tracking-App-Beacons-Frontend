@@ -10,7 +10,15 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import ItemDetailDialog from "./ItemDetailDialog/ItemDetailDialog";
 
 const Items = (props) => {
-	const { items, fetchItems, loadingItems, trackedEntities, startTrackingItem, stopTrackingItem } = props;
+	const {
+		items,
+		fetchItems,
+		loadingItems,
+		trackedEntities,
+		startTrackingItem,
+		stopTrackingItem,
+		centerTrackingItem,
+	} = props;
 	const classes = useStyles();
 	const [openDialogDetail, setOpenDialogDetail] = useState(false);
 	const [detailInfo, setDetailInfo] = useState(null);
@@ -45,7 +53,7 @@ const Items = (props) => {
 								y={item.location.y}
 								z={item.location.z}
 								id={item.item_id}
-								viewItemHandler={() => ViewHandler()}
+								viewItemHandler={() => centerTrackingItem(item.item_id)}
 								dialogOpenHandler={() =>
 									dialogOpenHandler(
 										item.name,
@@ -67,10 +75,6 @@ const Items = (props) => {
 			</Grid>
 		);
 	}
-
-	const ViewHandler = () => {
-		console.log("View Item");
-	};
 
 	const dialogOpenHandler = (name, id, x, y, z, description) => {
 		setDetailInfo({ name: name, id: id, x: x, y: y, z: z, description: description });
@@ -130,6 +134,7 @@ const mapDispatchToProps = (dispatch) => {
 		fetchItems: () => dispatch(actions.fetchItems()),
 		startTrackingItem: (id, x, y, z) => dispatch(actions.startTrackingEntity(id, "TrackedItem", x, y, z)),
 		stopTrackingItem: (id) => dispatch(actions.stopTrackingEntity(id)),
+		centerTrackingItem: (id) => dispatch(actions.centerSelectedTrackedEntity(id)),
 	};
 };
 

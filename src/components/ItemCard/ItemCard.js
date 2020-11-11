@@ -23,7 +23,7 @@ const ItemCard = (props) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small" onClick={viewItemHandler} color="primary">
+				<Button size="small" onClick={viewItemHandler} disabled={!toggleStatus} color="primary">
 					View
 				</Button>
 				<Button size="small" onClick={dialogOpenHandler} color="primary">

@@ -16,6 +16,13 @@ export const centerSelectedObjectBimViewer = (objectId) => {
 	};
 };
 
+export const centerSelectedTrackedEntity=(id)=>{
+	return{
+		type:actionTypes.CENTER_SELECTED_TRACKED_ENTITY,
+		id:id,
+	}
+}
+
 export const clearActionBimViewer = () => {
 	return {
 		type: actionTypes.CLEAR_ACTION_BIMVIEWER,

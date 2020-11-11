@@ -13,6 +13,7 @@ export {
 	setSelectedObjectBimViewer,
 	clearActionBimViewer,
 	centerSelectedObjectBimViewer,
+	centerSelectedTrackedEntity,
 	drawTrackedEntity,
 	undrawTrackedEntity,
 } from "./bimViewer";

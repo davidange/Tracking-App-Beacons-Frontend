@@ -14,12 +14,13 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 	const [isLoadingRenderer, setIsLoadingRenderer] = useState(true);
 
 	const selectedObject = useSelector((state) => state.bimViewer.selectedObject);
+	const bimViewerActionPayload = useSelector((state) => state.bimViewer.actionPayload);
 	const actionBimViewer = useSelector((state) => state.bimViewer.action);
 	const trackedEntities = useSelector((state) => state.activeProject.trackedEntities); //entitiesToBeDrawn;
 	const previousTrackedEntities = usePrevious(trackedEntities);
 	const dispatch = useDispatch();
 	const hasBeenSelectedHandler = useCallback(() => dispatch(actions.clearActionBimViewer()), [dispatch]);
-	
+
 	// eslint-disable-next-line no-unused-vars
 	const setSelectedObject = useCallback((objectId) => dispatch(actions.setSelectedObjectBimViewer(objectId)), [
 		dispatch,
@@ -59,7 +60,6 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 		const resizeHandler = () => {
 			viewportService.updateSize();
 			// viewportService.drawEntity(0, 0, 0, "1234");
-			viewportService.drawEntity(10, 0, 0, "12345");
 			// viewportService.drawEntity(20, 10, 0, "1234");
 			// viewportService.removeEntity("12345");
 		};
@@ -82,6 +82,16 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 			hasBeenSelectedHandler();
 		}
 	}, [isLoadingRenderer, viewportService, actionBimViewer, selectedObject, hasBeenSelectedHandler]);
+
+	//center Tracked Entities Handler
+	useEffect(() => {
+		if (!isLoadingRenderer && actionBimViewer === "CenterTrackedEntity" && bimViewerActionPayload) {
+			console.log('CENTERING TRACKED ENTITY!!!')
+			let selectedTrackedEntityId = bimViewerActionPayload.id;
+			viewportService.centerTrackedEntity(selectedTrackedEntityId);
+			hasBeenSelectedHandler();
+		}
+	}, [isLoadingRenderer, viewportService, actionBimViewer, bimViewerActionPayload, hasBeenSelectedHandler]);
 
 	//updates renderer when the list of tracked entities is different
 	useEffect(() => {

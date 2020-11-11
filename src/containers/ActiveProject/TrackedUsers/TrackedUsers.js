@@ -17,6 +17,7 @@ const TrackedUsers = (props) => {
 		trackedEntities,
 		startTrackingUser,
 		stopTrackingUser,
+		centerTrackedUser,
 	} = props;
 	const classes = useStyles();
 	const [openDialogDetail, setOpenDialogDetail] = useState(false);
@@ -49,7 +50,7 @@ const TrackedUsers = (props) => {
 							<TrackedUserCard
 								name={trackedUser.user.name}
 								id={trackedUser.user._id}
-								viewTrackedUserHandler={() => ViewHandler()}
+								viewTrackedUserHandler={() => centerTrackedUser(trackedUser.user._id)}
 								dialogOpenHandler={() =>
 									dialogOpenHandler(
 										trackedUser.user.name,
@@ -76,10 +77,6 @@ const TrackedUsers = (props) => {
 		);
 	}
 
-	const ViewHandler = () => {
-		console.log("View tracked User");
-	};
-
 	const dialogOpenHandler = (name, id, x, y, z) => {
 		setDetailInfo({ name: name, id: id, x: x, y: y, z: z });
 		setOpenDialogDetail(true);
@@ -89,9 +86,9 @@ const TrackedUsers = (props) => {
 		setOpenDialogDetail(false);
 	};
 
-	const trackedEntitiesToggle = (id,x,y,z) => {
+	const trackedEntitiesToggle = (id, x, y, z) => {
 		if (!trackedEntities[id]) {
-			startTrackingUser(id,x,y,z);
+			startTrackingUser(id, x, y, z);
 		} else {
 			stopTrackingUser(id);
 		}
@@ -135,8 +132,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchTrackedUsers: () => dispatch(actions.fetchTrackedUsers()),
-		startTrackingUser: (id,x,y,z) => dispatch(actions.startTrackingEntity(id, "TrackedUser",x,y,z)),
+		startTrackingUser: (id, x, y, z) => dispatch(actions.startTrackingEntity(id, "TrackedUser", x, y, z)),
 		stopTrackingUser: (id) => dispatch(actions.stopTrackingEntity(id)),
+		centerTrackedUser: (id) => dispatch(actions.centerSelectedTrackedEntity(id)),
 	};
 };
 
