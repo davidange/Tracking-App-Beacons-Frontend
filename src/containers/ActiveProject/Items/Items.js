@@ -57,7 +57,9 @@ const Items = (props) => {
 									)
 								}
 								toggleStatus={trackedEntities[item.item_id] ? true : false}
-								toggleHandleChange={() => trackedEntitiesToggle(item.item_id)}
+								toggleHandleChange={() =>
+									trackedEntitiesToggle(item.item_id, item.location.x, item.location.y, item.location.z)
+								}
 							/>
 						</Grid>
 					);
@@ -79,9 +81,9 @@ const Items = (props) => {
 		setOpenDialogDetail(false);
 	};
 
-	const trackedEntitiesToggle = (id) => {
+	const trackedEntitiesToggle = (id, x, y, z) => {
 		if (!trackedEntities[id]) {
-			startTrackingItem(id);
+			startTrackingItem(id, x, y, z);
 		} else {
 			stopTrackingItem(id);
 		}
@@ -126,7 +128,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchItems: () => dispatch(actions.fetchItems()),
-		startTrackingItem: (id) => dispatch(actions.startTrackingEntity(id, "TrackedItem")),
+		startTrackingItem: (id, x, y, z) => dispatch(actions.startTrackingEntity(id, "TrackedItem", x, y, z)),
 		stopTrackingItem: (id) => dispatch(actions.stopTrackingEntity(id)),
 	};
 };

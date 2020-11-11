@@ -7,6 +7,7 @@ export default class ViewportService {
 	loader;
 	projectData;
 	apiService;
+	normFactor;
 	//temp
 	drawnEntities = {};
 
@@ -142,6 +143,8 @@ export default class ViewportService {
 		});
 
 		await Promise.all(promises);
+		//set normFactor
+		this.normFactor = this.viewport.normFactor;
 		//--- handle events -----------------------------------------------------------------------
 		$(this.viewport.domElement).on("select3DObject", (e) => {
 			this.onSelectObject();
@@ -158,6 +161,7 @@ export default class ViewportService {
 				? this.viewport.objectSets.selectedObjects[this.viewport.objectSets.selectedObjects.length - 1]
 				: undefined;
 		console.log(`Object selected.`);
+		console.log(selectedObject);
 	};
 
 	//** zoom to selected Objects */
@@ -271,11 +275,11 @@ export default class ViewportService {
 	------------------------------------------------------------------------ */
 	drawEntity = (x, y, z, objectId) => {
 		//scale values
-		x = x / 1000;
-		y = y / 1000;
-		z = z / 1000;
+		x = x /this.normFactor;
+		y = y /this.normFactor;
+		z = z /this.normFactor;
+		
 		if (!this.drawnEntities.hasOwnProperty(objectId)) {
-			console.log("CREATING ARROW!!!");
 			//reference to Threejs Renderer
 			const THREE = Renderer.THREE;
 			//creates the arrow
@@ -298,10 +302,11 @@ export default class ViewportService {
 			this.drawnEntities[objectId] = arrow;
 			this.viewport.customScene.add(arrow);
 
-			//centering Functions:
-			console.log(this.viewport.centerObjects);
-			console.log(this.viewport.centerBoundingSphere);
-			//this.viewport.renderer.render();
+			// //centering Functions:
+			// console.log(this.viewport.centerObjects);
+			// this.viewport.centerObjects([objectId])
+			//  console.log(this.viewport.centerBoundingSphere);
+			// //this.viewport.renderer.render();
 		} else {
 			const arrow = this.drawnEntities[objectId];
 			arrow.position.set(x, y, z);

@@ -15,7 +15,6 @@ import Items from "./Items/Items";
 import TrackedUsers from "./TrackedUsers/TrackedUsers";
 import BimplusRenderer from "./Viewers/BimplusRenderer/BimplusRenderer";
 
-
 const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, setActiveProjectMode, match } = props;
 	const classes = useStyles();
@@ -23,9 +22,14 @@ const ActiveProject = (props) => {
 	const fixedHeightPaper = clsx(classes.fixedHeightPaper, classes.paper);
 
 	useEffect(() => {
-		setActiveProject(match.params.projectId);
+		//no active Projcet or previous active project was different
+		if (!activeProject || (activeProject && activeProject._id !== match.params.projectId)) {
+			console.log("SETTING ACTIVE PROJECT");
+			setActiveProject(match.params.projectId);
+		}
+		console.log("SETING ACTIVE PROJECT MODE");
 		setActiveProjectMode(match.params.mode);
-	}, [setActiveProject, setActiveProjectMode, match.params.projectId, match.params.mode]);
+	}, [setActiveProject, setActiveProjectMode, match.params.projectId, match.params.mode, activeProject]);
 
 	if (loadingActiveProject) {
 		return (
@@ -48,20 +52,20 @@ const ActiveProject = (props) => {
 					</Grid>
 					<Grid item xs={12} sm={4}>
 						<Paper className={fixedHeightPaper}>
-							<Switch>
-								{match.params.mode === "ProjectSetup" ? (
-									<Route path={`${match.path}/Beacons`} component={Beacons} />
-								) : null}
-								{match.params.mode === "ProjectSetup" ? (
-									<Route path={`${match.path}/BeaconModel`} component={BeaconModel} />
-								) : null}
-								{match.params.mode === "Tracking" ? (
-									<Route path={`${match.path}/Items`} component={Items} />
-								) : null}
-								{match.params.mode === "Tracking" ? (
-									<Route path={`${match.path}/Users`} component={TrackedUsers} />
-								) : null}
-							</Switch>
+							{activeProject ? (
+								<Switch>
+									{match.params.mode === "ProjectSetup" ? (
+										<Route path={`${match.path}/BeaconModel`} component={BeaconModel} />
+									) : null}
+									{match.params.mode === "ProjectSetup" ? (
+										<Route path={`${match.path}/Beacons`} component={Beacons} />
+									) : null}
+									{match.params.mode === "Tracking" ? (
+										<Route path={`${match.path}/Users`} component={TrackedUsers} />
+									) : null}
+									{match.params.mode === "Tracking" ? <Route path={`${match.path}/Items`} component={Items} /> : null}
+								</Switch>
+							) : null}
 						</Paper>
 					</Grid>
 					<Grid item xs={12} sm={8}>

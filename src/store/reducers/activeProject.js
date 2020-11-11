@@ -51,7 +51,7 @@ const setActiveProjectMode = (state, action) => {
 
 const startTrackingEntity = (state, action) => {
 	const newTrackedEntities = { ...state.trackedEntities };
-	newTrackedEntities[action.id] = action.entityType;
+	newTrackedEntities[action.id] = { entityType: action.entityType, coordinates: action.coordinates };
 	return {
 		...state,
 		trackedEntities: newTrackedEntities,
