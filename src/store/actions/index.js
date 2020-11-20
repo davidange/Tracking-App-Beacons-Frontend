@@ -7,6 +7,7 @@ export {
 	setActiveProjetMode,
 	startTrackingEntity,
 	stopTrackingEntity,
+	updateTrackingEntityLocation,
 } from "./activeProject";
 export { fetchBeacons, setBeaconUID } from "./beacons";
 export {
@@ -14,8 +15,6 @@ export {
 	clearActionBimViewer,
 	centerSelectedObjectBimViewer,
 	centerSelectedTrackedEntity,
-	drawTrackedEntity,
-	undrawTrackedEntity,
 } from "./bimViewer";
 export { fetchModels, setBeaconModel, removeBeaconModel } from "./models";
 export { fetchItems } from "./items";

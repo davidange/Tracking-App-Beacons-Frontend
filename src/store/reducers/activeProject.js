@@ -61,6 +61,8 @@ const startTrackingEntity = (state, action) => {
 const stopTrackingEntity = (state, action) => {
 	//remove the tracked Entity from the list of currently Tracked Entities
 	const newTrackedEntities = { ...state.trackedEntities };
+	console.log("-------------");
+	console.log(newTrackedEntities);
 	if (newTrackedEntities[action.id]) {
 		delete newTrackedEntities[action.id];
 	}
@@ -68,6 +70,19 @@ const stopTrackingEntity = (state, action) => {
 		...state,
 		trackedEntities: newTrackedEntities,
 	};
+};
+
+const updateTrackingEntityLocation = (state, action) => {
+	const newTrackedEntities = { ...state.trackedEntities };
+	if (newTrackedEntities[action.id]) {
+		const newTrackedEntity = { ...newTrackedEntities[action.id] };
+		newTrackedEntity.coordinates = { ...action.coordinates };
+		newTrackedEntities[action.id]=newTrackedEntity;
+	}
+	return{
+		...state,
+		trackedEntities: newTrackedEntities,
+	}
 };
 
 const reducer = (state = initialState, action) => {
@@ -86,6 +101,8 @@ const reducer = (state = initialState, action) => {
 			return startTrackingEntity(state, action);
 		case actionTypes.STOP_TRACKING_ENTITY:
 			return stopTrackingEntity(state, action);
+		case actionTypes.UPDATE_TRACKING_ENTITY_LOCATION:
+			return updateTrackingEntityLocation(state,action);
 		default:
 			return state;
 	}

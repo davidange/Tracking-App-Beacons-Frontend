@@ -14,6 +14,7 @@ import BeaconModel from "./BeaconModels/BeconModel";
 import Items from "./Items/Items";
 import TrackedUsers from "./TrackedUsers/TrackedUsers";
 import BimplusRenderer from "./Viewers/BimplusRenderer/BimplusRenderer";
+import useEntitiesUpdatesSocket from '../../hooks/useEntitiesUpdatesSocket'
 
 const ActiveProject = (props) => {
 	const { activeProject, loadingActiveProject, setActiveProject, setActiveProjectMode, match } = props;
@@ -26,11 +27,13 @@ const ActiveProject = (props) => {
 		if (!activeProject || (activeProject && activeProject._id !== match.params.projectId)) {
 			console.log("SETTING ACTIVE PROJECT");
 			setActiveProject(match.params.projectId);
+			
 		}
 		console.log("SETING ACTIVE PROJECT MODE");
 		setActiveProjectMode(match.params.mode);
 	}, [setActiveProject, setActiveProjectMode, match.params.projectId, match.params.mode, activeProject]);
 
+	useEntitiesUpdatesSocket();
 	if (loadingActiveProject) {
 		return (
 			<div className={classes.center}>

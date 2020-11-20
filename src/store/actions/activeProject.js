@@ -1,5 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-instance";
+import {drawTrackedEntity} from './bimViewer'
 
 const setActiveProjectStart = () => {
 	return { type: actionTypes.SET_ACTIVE_PROJECT_START };
@@ -59,6 +60,26 @@ export const startTrackingEntity = (id, entityType, x, y, z) => {
 		},
 	};
 };
+
+const updateTrackingEntityLocationAction = (id, x, y, z) => {
+	return {
+		type: actionTypes.UPDATE_TRACKING_ENTITY_LOCATION,
+		id: id,
+		coordinates: {
+			x: x,
+			y: y,
+			z: z,
+		},
+	};
+};
+
+export const updateTrackingEntityLocation= (id, x, y, z) => {
+	return (dispatch, getState) => {
+		dispatch(updateTrackingEntityLocationAction(id, x, y, z));
+		dispatch(drawTrackedEntity (id,x, y, z));
+	}
+}
+
 
 export const stopTrackingEntity = (id) => {
 	return {

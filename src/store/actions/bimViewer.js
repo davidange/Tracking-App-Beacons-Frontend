@@ -29,7 +29,7 @@ export const clearActionBimViewer = () => {
 	};
 };
 
-export const drawTrackedEntity = (x, y, z, id) => {
+export const drawTrackedEntity = (id,x, y, z) => {
 	return {
 		type: actionTypes.DRAW_TRACKED_ENTITY,
 		coordinates: {

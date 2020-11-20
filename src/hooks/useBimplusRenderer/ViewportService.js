@@ -308,7 +308,10 @@ export default class ViewportService {
 		} else {
 			const arrow = this.drawnEntities[objectId];
 			arrow.position.set(x, y, z);
+			//redraw changes
+			this.viewport.draw();
 		}
+		
 	};
 
 	removeEntity = (objectId) => {

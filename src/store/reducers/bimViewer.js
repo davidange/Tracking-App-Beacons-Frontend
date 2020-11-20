@@ -37,6 +37,15 @@ const clearActionBimViewer = (state, action) => {
 	};
 };
 
+const drawTrackedEntity = (state, action) => {
+	const payload = { id: action.id, coordinates: action.coordinates };
+	return {
+		...state,
+		action: "DrawTrackedEntity",
+		actionPayload: payload,
+	};
+};
+
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actions.SET_SELECTED_OBJECT_BIMVIEWER:
@@ -47,6 +56,8 @@ const reducer = (state = initialState, action) => {
 			return centerSelectedTrackedEntity(state, action);
 		case actions.CLEAR_ACTION_BIMVIEWER:
 			return clearActionBimViewer(state, action);
+		case actions.DRAW_TRACKED_ENTITY:
+			return drawTrackedEntity(state, action);
 		default:
 			return state;
 	}

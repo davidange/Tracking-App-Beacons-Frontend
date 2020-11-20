@@ -19,7 +19,7 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 	const trackedEntities = useSelector((state) => state.activeProject.trackedEntities); //entitiesToBeDrawn;
 	const previousTrackedEntities = usePrevious(trackedEntities);
 	const dispatch = useDispatch();
-	const hasBeenSelectedHandler = useCallback(() => dispatch(actions.clearActionBimViewer()), [dispatch]);
+	const clearActionBimViewer = useCallback(() => dispatch(actions.clearActionBimViewer()), [dispatch]);
 
 	// eslint-disable-next-line no-unused-vars
 	const setSelectedObject = useCallback((objectId) => dispatch(actions.setSelectedObjectBimViewer(objectId)), [
@@ -79,19 +79,28 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 			viewportService.centerObject(selectedObject);
 			viewportService.setSelectedObject(selectedObject);
 			//viewportService.isolate();
-			hasBeenSelectedHandler();
+			clearActionBimViewer();
 		}
-	}, [isLoadingRenderer, viewportService, actionBimViewer, selectedObject, hasBeenSelectedHandler]);
+	}, [isLoadingRenderer, viewportService, actionBimViewer, selectedObject, clearActionBimViewer]);
 
-	//center Tracked Entities Handler
 	useEffect(() => {
+		//center Tracked Entities Handler
 		if (!isLoadingRenderer && actionBimViewer === "CenterTrackedEntity" && bimViewerActionPayload) {
-			console.log('CENTERING TRACKED ENTITY!!!')
+			console.log("CENTERING TRACKED ENTITY!!!");
 			let selectedTrackedEntityId = bimViewerActionPayload.id;
+			console.log(selectedTrackedEntityId);
 			viewportService.centerTrackedEntity(selectedTrackedEntityId);
-			hasBeenSelectedHandler();
+			clearActionBimViewer();
 		}
-	}, [isLoadingRenderer, viewportService, actionBimViewer, bimViewerActionPayload, hasBeenSelectedHandler]);
+		//update renderer when an update to a tracked entity has been made (change emited throught socket)
+		if (!isLoadingRenderer && actionBimViewer === "DrawTrackedEntity" && bimViewerActionPayload) {
+			console.log("REDRAWING ENTITY!!!");
+			const id = bimViewerActionPayload.id;
+			const { x, y, z } = bimViewerActionPayload.coordinates;
+			viewportService.drawEntity(x, y, z, id);
+			clearActionBimViewer();
+		}
+	}, [isLoadingRenderer, viewportService, actionBimViewer, bimViewerActionPayload, clearActionBimViewer]);
 
 	//updates renderer when the list of tracked entities is different
 	useEffect(() => {
