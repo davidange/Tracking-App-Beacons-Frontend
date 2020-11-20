@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import usePrevious from "./usePrevious";
 import * as actions from "../store/actions/index";
 
-const ENDPOINT = "localhost:3000";
+const ENDPOINT = 'https://tracking-bimplus-beacon.herokuapp.com';
 
 const useEntitiesUpdatesSocket = () => {
 	const activeProject = useSelector((state) => state.activeProject.activeProject);
