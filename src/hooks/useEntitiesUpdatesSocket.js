@@ -1,10 +1,35 @@
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import usePrevious from "./usePrevious";
 import * as actions from "../store/actions/index";
 
-const ENDPOINT = 'https://tracking-bimplus-beacon.herokuapp.com';
+const ENDPOINT = "https://tracking-bimplus-beacon-socket.herokuapp.com/";
+
+const updateSocketRooms = (socket, trackedEntities, previousTrackedEntities, projectId) => {
+	//initial hash table with tracked entities where added
+	let newTrackedEntities = { ...trackedEntities };
+	//initia hash table with tracked entities that where deleted
+	let erasedTrackedEntities = { ...previousTrackedEntities };
+	//compare the difference between both objects after first push
+	if (previousTrackedEntities !== undefined) {
+		for (let id in trackedEntities) {
+			if (previousTrackedEntities[id]) {
+				delete newTrackedEntities[id];
+				delete erasedTrackedEntities[id];
+			}
+		}
+	}
+	//Join Room for updates regarding new entities
+	for (let id in newTrackedEntities) {
+		socket.emit("join", projectId, id);
+		console.log("JOINING.....", id);
+	}
+	//erase event listeners to Entities
+	for (let id in erasedTrackedEntities) {
+		socket.emit("leave", projectId, id);
+	}
+};
 
 const useEntitiesUpdatesSocket = () => {
 	const activeProject = useSelector((state) => state.activeProject.activeProject);
@@ -12,56 +37,43 @@ const useEntitiesUpdatesSocket = () => {
 	const previousTrackedEntities = usePrevious(trackedEntities);
 	const [socket, setSocket] = useState(null);
 	const dispatch = useDispatch();
-	const updateEntityLocation = useCallback((id, x, y, z) => dispatch(actions.updateTrackingEntityLocation(id,x, y, z)), [
-		dispatch,
-	]);
-	//setup socket and join the Project Room
+	const updateEntityLocation = useCallback(
+		(id, x, y, z) => dispatch(actions.updateTrackingEntityLocation(id, x, y, z)),
+		[dispatch]
+	);
+	//setup socket
+
 	useEffect(() => {
 		if (activeProject && !socket) {
-			let tempSocket = io(ENDPOINT, { transports: ["websocket", "polling", "flashsocket"] });
-			tempSocket.emit("join", activeProject._id);
+			console.log("Active Project:");
+			console.log(activeProject);
+			//create Socket
+			let tempSocket = io(ENDPOINT, { transports: ["websocket", "polling", "flashsocket"] }); //{ transports: ["websocket", "polling", "flashsocket"] }
+			//set up socket....
+			tempSocket.on("entity-new-location", (entityId, location) => {
+				const { x, y, z } = location;
+				console.log("Updating location of ", entityId);
+				updateEntityLocation(entityId, x, y, z);
+			});
 			setSocket(tempSocket);
-			console.log("joining room :", activeProject);
 		}
 
 		return () => {
 			if (socket) {
+				//socket is disconnected
+				console.log("Disconnecting socket....");
 				socket.disconnect();
 				socket.off();
 			}
 		};
-	}, [activeProject, socket]);
+	}, [activeProject, socket, updateEntityLocation]);
 
 	//set the event Listeners
 	useEffect(() => {
 		if (socket) {
-			//initial hash table with tracked entities where added
-			let newTrackedEntities = { ...trackedEntities };
-			//initia hash table with tracked entities that where deleted
-			let erasedTrackedEntities = { ...previousTrackedEntities };
-			//compare the difference between both objects after first push
-			if (previousTrackedEntities !== undefined) {
-				for (let id in trackedEntities) {
-					if (previousTrackedEntities[id]) {
-						delete newTrackedEntities[id];
-						delete erasedTrackedEntities[id];
-					}
-				}
-			}
-			//add event listeners to newly added  Tracked Entities
-			for (let id in newTrackedEntities) {
-				socket.on(`entity-new-location-${id}`, ({location}) => {
-					console.log("Has changed location of ", id, "to: ", location);
-					const { x, y, z } = location;
-					updateEntityLocation(id, x, y, z);
-				});
-			}
-			//erase event listeners to Entities
-			for (let id in erasedTrackedEntities) {
-				socket.off(`entity-new-location-${id}`);
-			}
+			updateSocketRooms(socket, trackedEntities, previousTrackedEntities, activeProject._id);
 		}
-	}, [trackedEntities, socket, previousTrackedEntities, updateEntityLocation]);
+	}, [trackedEntities, socket, previousTrackedEntities, activeProject]);
 
 	return null;
 };
