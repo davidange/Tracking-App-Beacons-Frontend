@@ -49,7 +49,7 @@ const useEntitiesUpdatesSocket = () => {
 			console.log(activeProject);
 			//create Socket
 			let tempSocket = io(ENDPOINT, { transports: ["websocket", "polling", "flashsocket"] }); //{ transports: ["websocket", "polling", "flashsocket"] }
-			//set up socket....
+			//Add the listener for new changes of location of entity
 			tempSocket.on("entity-new-location", (entityId, location) => {
 				const { x, y, z } = location;
 				console.log("Updating location of ", entityId);
@@ -68,7 +68,7 @@ const useEntitiesUpdatesSocket = () => {
 		};
 	}, [activeProject, socket, updateEntityLocation]);
 
-	//set the event Listeners
+	// modify the room subscriptions
 	useEffect(() => {
 		if (socket) {
 			updateSocketRooms(socket, trackedEntities, previousTrackedEntities, activeProject._id);
