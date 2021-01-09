@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import usePrevious from "./usePrevious";
 import * as actions from "../store/actions/index";
 
-const ENDPOINT = "https://tracking-bimplus-beacon-socket.herokuapp.com/";
+const ENDPOINT = process.env.REACT_APP_SOCKET_SERVER_URL;
 
 const updateSocketRooms = (socket, trackedEntities, previousTrackedEntities, projectId) => {
 	//initial hash table with tracked entities where added

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://tracking-bimplus-beacon.herokuapp.com/'
+    baseURL: process.env.REACT_APP_BACKEND_SERVER_URL
 });
 
 export default instance;

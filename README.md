@@ -1,5 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Environment Variables
+The environment Variables required for this application to run are the following:
+
+Environment Variable | Description 
+--- | --- 
+`REACT_APP_SOCKET_SERVER_URL` | URL of Socket Server For Real Time updates 
+`REACT_APP_BACKEND_SERVER_URL` | URL of API Server.
+
+*Note:
+Set them up inside a .env.local file at the root location if the server will be run locally.*
+
 ## Available Scripts
 
 In the project directory, you can run:
