@@ -14,11 +14,13 @@ export default class ApiService {
 	appAuthToken;
 
 	constructor(appAuthToken) {
-		console.log(' NEW OBJECT!!!')
 		this.api = new WebSdk.Api(WebSdk.createDefaultConfig(process.env.REACT_APP_BIMPLUS_ENVIRONMENT));
 		this.appAuthToken = appAuthToken;
 	}
 
+	/**
+	 * Sets up API Object by authorizing it (gets the Bimplus API Token and saves it inside api object)
+	 */
 	authorize() {
 		const header = { Authorization: "Bearer " + this.appAuthToken };
 		return axios
