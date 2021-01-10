@@ -4,6 +4,9 @@ import useApiService from "../useApiService";
 import ExplorerService from "./ExplorerService";
 import { useSelector, useDispatch } from "react-redux";
 
+/**
+ * Custom Hook that Sets up Bimplus Explorer (Deprecated for Bimplus Rendered)
+ */
 const useBimplusExplorer = (teamId, projectId, domElementId) => {
 	const [apiService, statusApi] = useApiService();
 	// eslint-disable-next-line no-unused-vars
@@ -37,7 +40,7 @@ const useBimplusExplorer = (teamId, projectId, domElementId) => {
 		}
 	}, [explorerService.explorer, projectId, teamId, explorerService, setSelectedObject]);
 
-
+	// center object
 	useEffect(() => {
 		if (explorerService.explorer && actionBimViewer === "CenterObject" && selectedObject) {
 			explorerService.explorer.centerObject(selectedObject, true);

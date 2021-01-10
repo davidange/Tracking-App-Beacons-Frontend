@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import usePrevious from "../usePrevious";
 import * as actions from "../../store/actions/index";
 
+/**
+ * Custom Hook that sets up the Bimplus Renderer
+ */
 const useBimplusRenderer = (projectId, domElementId, teamId) => {
 	const [apiService, statusApi] = useApiService();
 	const [viewportService, setViewportService] = useState(null);
@@ -16,8 +19,9 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 	const selectedObject = useSelector((state) => state.bimViewer.selectedObject);
 	const bimViewerActionPayload = useSelector((state) => state.bimViewer.actionPayload);
 	const actionBimViewer = useSelector((state) => state.bimViewer.action);
-	const trackedEntities = useSelector((state) => state.activeProject.trackedEntities); //entitiesToBeDrawn;
+	const trackedEntities = useSelector((state) => state.activeProject.trackedEntities);
 	const previousTrackedEntities = usePrevious(trackedEntities);
+	
 	const dispatch = useDispatch();
 	const clearActionBimViewer = useCallback(() => dispatch(actions.clearActionBimViewer()), [dispatch]);
 
@@ -82,6 +86,7 @@ const useBimplusRenderer = (projectId, domElementId, teamId) => {
 			clearActionBimViewer();
 		}
 	}, [isLoadingRenderer, viewportService, actionBimViewer, selectedObject, clearActionBimViewer]);
+
 
 	useEffect(() => {
 		//center Tracked Entities Handler

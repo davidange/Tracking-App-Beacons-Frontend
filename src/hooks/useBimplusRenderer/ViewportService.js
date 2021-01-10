@@ -1,14 +1,15 @@
 import * as Renderer from "bimplus-renderer";
 import $ from "jquery";
 
+/**
+ * Class that sets up the Bimplus Viewport service
+ */
 export default class ViewportService {
-	//--- renderer stuff -----------------------------------------------------------------------
 	viewport;
 	loader;
 	projectData;
 	apiService;
 	normFactor;
-	//temp
 	drawnEntities = {};
 
 	viewportSettings = {
@@ -19,7 +20,6 @@ export default class ViewportService {
 		mixedModelMode: true,
 		pinFlyToDistance: 20000,
 		nearClippingPlane: 0.01,
-
 		slideThmbSize: [180, 112],
 		units: {
 			mm: {
@@ -51,7 +51,6 @@ export default class ViewportService {
 			inch: {},
 		},
 	};
-
 	units = {
 		Metric: {
 			weight: {
@@ -108,16 +107,16 @@ export default class ViewportService {
 		this.apiService = apiService;
 	}
 
-	/**--------------------------------------------------------------------------
-    * get viewport object
-    --------------------------------------------------------------------------*/
+	/**
+	 * Get viewport object
+	 */
 	getViewportObject = () => {
 		return this.viewport;
 	};
 
-	/**--------------------------------------------------------------------------
-    * init bimplus renderer
-    --------------------------------------------------------------------------*/
+	/**
+	 * Initialize Bimplus renderer
+	 */
 	async initRenderer(projectId, domElementId) {
 		this.viewport = new Renderer.Viewport3D({
 			settings: this.viewportSettings,
@@ -131,7 +130,7 @@ export default class ViewportService {
 
 		let promises = [];
 
-		//--- show all project models -----------------------------------------------------------------------
+		//--- render  all models of project-------------
 		this.projectData.forEachModel((model) => {
 			var layers = model.getLayerArray();
 			model.setVisible(true);
@@ -164,11 +163,12 @@ export default class ViewportService {
 		console.log(selectedObject);
 	};
 
-	//** zoom to selected Objects */
+	/** zoom to selected Objects */
 	centerObjects = (objectsId) => {
 		this.viewport.centerObjects(objectsId);
 	};
 
+	/** zoom to selected Object */
 	centerObject = (objectId) => {
 		const objectIdArray = [objectId];
 		this.viewport.centerObjects(objectIdArray);
@@ -176,19 +176,20 @@ export default class ViewportService {
 		console.log(this.viewport.centerBoundingSphere);
 	};
 
+	/** highlight object */
 	setSelectedObject = (objectId) => {
 		this.viewport.highlightObject(objectId);
 	};
-	/**--------------------------------------------------------------------------
-    * update viewport size
-    --------------------------------------------------------------------------*/
+	/**
+	 * update viewport size
+	 */
 	updateSize = () => {
 		this.viewport.setViewportSize();
 	};
 
-	/**--------------------------------------------------------------------------
-    * reset view
-    --------------------------------------------------------------------------*/
+	/**
+	 * reset view
+	 */
 	resetView = () => {
 		this.viewport.resetSelectionMode();
 		this.viewport.restoreViewbox();
@@ -197,84 +198,119 @@ export default class ViewportService {
 		// this.setView("x");
 	};
 
-	/**--------------------------------------------------------------------------
-    * set view (x,y,z,perspectiveView(xyz))
-	--------------------------------------------------------------------------*/
+	/**
+	 * set view perspective (x,y,z,perspectiveView(xyz))
+	 */
 	_setView = (view) => {
 		this.viewport.setCameraResetAxis(view);
 	};
 
-	//Set camera to Front View
+	/**
+	 * Set camera to Front View
+	 */
 	frontView = () => {
 		this._setView("x");
 	};
-	//Set camera to Top View
+
+	/**
+	 * Set camera to Top View
+	 */
 	topView = () => {
 		this._setView("y");
 	};
-	//Set camera to Side View
+
+	/**
+	 * Set camera to Side View
+	 */
 	sideView = () => {
 		this._setView("z");
 	};
 
+	/**
+	 * Set camera to perspective View
+	 */
 	perspectiveView = () => {
 		this._setView("xyz");
 	};
 
-	//********Selection Modes: */
 
+	//-----------Selection Mode Functions------
+	/**
+	 * Reset Selection Mode
+	 */
 	resetSelectionMode = () => {
 		this.viewport.resetSelectionMode();
 	};
-	/**--------------------------------------------------------------------------
-    * set section axis (x,y,z)
-    --------------------------------------------------------------------------*/
+
+	/**
+	 * Set section axis to specified Axis (x,y,z)
+	 */
 	_setSectionAxis = (axis) => {
 		this.viewport.setSectionAxis(axis);
 		if (this.viewport.checkSelectionMode("section") === false) {
 			this.viewport.setSelectionMode("section");
 		}
 	};
-	//**Set Section Plane to X axis */
+
+	/**
+	 * Set Section Plane to X axis
+	 */
 	sectionX = () => {
 		this._setSectionAxis("x");
 	};
-	//**Set Section Plane to Y axis */
+
+	/**
+	 * Set Section Plane to Y axis
+	 */
 	sectionY = () => {
 		this._setSectionAxis("y");
 	};
-	//**Set Section Plane to Z axis */
+
+	/**
+	 * Set Section Plane to Z axis
+	 */
 	sectionZ = () => {
 		this._setSectionAxis("z");
 	};
-	//**Set Section Plane to free axis */
+
+	/**
+	 * Set Section Plane to free axis
+	 */
 	sectionFree = () => {
 		this.viewport.setSectionAxis("Free");
 	};
 
-	// Switch on isolation mode - all other elements will be grey and transparent
+	/**
+	 * Switch on isolation mode - all other elements will be grey and transparent
+	 */
 	isolate = () => {
 		this.viewport.setSelectionMode("isolated");
 	};
 
-	// Switch on hidden isolation mode - all other elements will be hidden
+	/**
+	 *  Switch on hidden isolation mode - all other elements will be hidden
+	 */ 
 	isolateHide = () => {
 		this.viewport.setSelectionMode("hideIsolated");
 	};
 
-	// Switch on clipping isolation mode - all elements outside the isolated elements
-	// bounding box will be clipped
-	isolateClippingBox = () => {
+	/**
+	 * Switch on clipping isolation mode - all elements outside the isolated elements
+	 * bounding box will be clipped
+	 */	
+	 isolateClippingBox = () => {
 		this.viewport.setSelectionMode("clipIsolated");
 	};
 
-	/**---------------------------------------------------------------------------
+
+
+	/**
 	 * Draws an Arrow representing the location of the entity
 	 @params x x coordinates
 	 @params y y coordinates
 	 @params z z coordinates
 	 @params objectId id of the object to be Drawn
-	------------------------------------------------------------------------ */
+	*/
 	drawEntity = (x, y, z, objectId) => {
 		//scale values
 		x = x / this.normFactor;
@@ -311,9 +347,12 @@ export default class ViewportService {
 			//redraw changes
 			this.viewport.draw();
 		}
-		
 	};
 
+	/**
+	 * removes the drawn entity
+	 * @param {String} objectId 
+	 */
 	removeEntity = (objectId) => {
 		if (this.drawnEntities.hasOwnProperty(objectId)) {
 			const arrow = this.drawnEntities[objectId];
@@ -322,6 +361,10 @@ export default class ViewportService {
 		}
 	};
 
+	/**
+	 * Centers to specified tracked entity
+	 * @param {String} objectId 
+	 */
 	centerTrackedEntity = (objectId) => {
 		if (this.drawnEntities.hasOwnProperty(objectId)) {
 			const arrow = this.drawnEntities[objectId];
@@ -333,9 +376,10 @@ export default class ViewportService {
 			this.viewport.centerBoundingSphere(bSphere);
 		}
 	};
-	/**--------------------------------------------------------------------------
+
+	/**
     * set model visibility 
-    --------------------------------------------------------------------------*/
+    */
 	setModelVisibility = (modelId, value) => {
 		this.projectData.forEachModel((model) => {
 			if (model.id === modelId) {
@@ -346,9 +390,9 @@ export default class ViewportService {
 		});
 	};
 
-	/**--------------------------------------------------------------------------
-    * models to show
-    --------------------------------------------------------------------------*/
+	/**
+    * Renders models
+    */
 	showModels = (models) => {
 		this.projectData.forEachModel((model) => {
 			let modelVisible = models.find((item) => item.id === model.id);
@@ -357,9 +401,9 @@ export default class ViewportService {
 		this.viewport.draw();
 	};
 
-	/**--------------------------------------------------------------------------
+	/**
     * get list of project models
-    --------------------------------------------------------------------------*/
+    */
 	getProjectModels = () => {
 		let decoratedModels = [];
 		this.projectData.forEachModel((model) => {

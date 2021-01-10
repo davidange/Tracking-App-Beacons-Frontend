@@ -4,8 +4,17 @@ import { useSelector, useDispatch } from "react-redux";
 import usePrevious from "./usePrevious";
 import * as actions from "../store/actions/index";
 
+//Socket.io Server URL 
 const ENDPOINT = process.env.REACT_APP_SOCKET_SERVER_URL;
 
+/**
+ * Updates the socket connection and subscribes to the update of the tracked entities
+ * in trackedEntities not found in previousTrackedEntities Object.
+ * @param {Socket} socket  Socket to socket.io Server 
+ * @param {Object} trackedEntities Object with the tracked Entities 
+ * @param {Object} previousTrackedEntities Object with the previous tracked Entities 
+ * @param {String} projectId  Id of project
+ */
 const updateSocketRooms = (socket, trackedEntities, previousTrackedEntities, projectId) => {
 	//initial hash table with tracked entities where added
 	let newTrackedEntities = { ...trackedEntities };
@@ -31,6 +40,9 @@ const updateSocketRooms = (socket, trackedEntities, previousTrackedEntities, pro
 	}
 };
 
+/**
+ * Custom Hook that Sets the socket connection and the subscriptions to the tracked Entities.
+ */
 const useEntitiesUpdatesSocket = () => {
 	const activeProject = useSelector((state) => state.activeProject.activeProject);
 	const trackedEntities = useSelector((state) => state.activeProject.trackedEntities);
@@ -41,8 +53,8 @@ const useEntitiesUpdatesSocket = () => {
 		(id, x, y, z) => dispatch(actions.updateTrackingEntityLocation(id, x, y, z)),
 		[dispatch]
 	);
-	//setup socket
-
+	
+	//setup Socket connection
 	useEffect(() => {
 		if (activeProject && !socket) {
 			console.log("Active Project:");
@@ -58,9 +70,9 @@ const useEntitiesUpdatesSocket = () => {
 			setSocket(tempSocket);
 		}
 
+		//Disconnect Socket
 		return () => {
 			if (socket) {
-				//socket is disconnected
 				console.log("Disconnecting socket....");
 				socket.disconnect();
 				socket.off();
@@ -68,7 +80,7 @@ const useEntitiesUpdatesSocket = () => {
 		};
 	}, [activeProject, socket, updateEntityLocation]);
 
-	// modify the room subscriptions
+	// Modify the room subscriptions for new tracked Entities
 	useEffect(() => {
 		if (socket) {
 			updateSocketRooms(socket, trackedEntities, previousTrackedEntities, activeProject._id);

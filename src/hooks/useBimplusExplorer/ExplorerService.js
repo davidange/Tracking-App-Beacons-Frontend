@@ -1,5 +1,8 @@
 import * as WebClient from "bimplus-webclient";
 
+/**
+ * Class that sets up the Bim Explorer (See Bimplus Documentation)
+ */
 export default class ExplorerService {
 	explorer;
 	communicationClient;
@@ -41,11 +44,3 @@ export default class ExplorerService {
 		this.onObjectSelectedFunction = func;
 	}
 }
-
-// //Center ObjectHandler
-// useEffect(() => {
-//     if (explorer && actionBimViewer === "CenterObject" && selectedObject) {
-//         explorer.centerObject(selectedObject, true);
-//         hasBeenSelectedHandler();
-//     }
-// }, [explorer, actionBimViewer, selectedObject, hasBeenSelectedHandler]);

@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import ApiService from "./ApiService";
+/**
+ * Custom Hook that creates and sets up an ApiService
+ */
 const useApiService = () => {
 	const [apiService] = useState(new ApiService());
 	const [statusApi, setStatusApi] = useState("idle");
@@ -18,14 +21,14 @@ const useApiService = () => {
 			}
 		});
 	}, [apiService]);
+
 	useEffect(() => {
 		isMountedRef.current = true;
 		signin();
-
 		return () => (isMountedRef.current = false);
 	}, [signin]);
 
-	return [apiService,statusApi];
+	return [apiService, statusApi];
 };
 
 export default useApiService;
