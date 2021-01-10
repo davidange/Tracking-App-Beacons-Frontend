@@ -1,34 +1,36 @@
 import * as WebSdk from "bimplus-websdk";
+import axios from "../../axios-instance";
 /**
  * Class representing the information necesary for managing the Bimplus API.
  * Validates the User and can access information regarding the projects.
  * Contains a member variable called api that can make calls to Bimplus Servers (https://doc.allplan.com/display/bimpluspublic/Bimplus+API+Reference)
  */
+
 export default class ApiService {
 	api = null;
 	actTeamId;
 	actTeamSlug;
 	actProject;
+	appAuthToken;
 
-	constructor() {
+	constructor(appAuthToken) {
+		console.log(' NEW OBJECT!!!')
 		this.api = new WebSdk.Api(WebSdk.createDefaultConfig(process.env.REACT_APP_BIMPLUS_ENVIRONMENT));
+		this.appAuthToken = appAuthToken;
 	}
 
-	/**
-	 * Validates the credentials and sets the api token.
-	 * @param {String} email
-	 * @param {String} password
-	 */
-	authorize(email = process.env.REACT_APP_BIMPLUS_EMAIL, password = process.env.REACT_APP_BIMPLUS_PASSWORD) {
-		let appId = process.env.REACT_APP_BIMPLUS_APP_KEY;
-		return this.api.authorize
-			.post(email, password, appId)
-			.then((data) => {
-				this._setAuthorize(data.access_token);
+	authorize() {
+		const header = { Authorization: "Bearer " + this.appAuthToken };
+		return axios
+			.get("bimplus-token", { headers: header })
+			.then((res) => {
+				console.log(res.data.token);
+				this._setAuthorize(res.data.token);
 				return true;
 			})
 			.catch((error) => {
 				// Authorization failed
+				console.log(error);
 				console.log("Login to Bimplus failed!");
 				return false;
 			});

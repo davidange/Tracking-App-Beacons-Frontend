@@ -1,10 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef,useMemo } from "react";
+import { useSelector } from "react-redux";
 import ApiService from "./ApiService";
 /**
  * Custom Hook that creates and sets up an ApiService
  */
 const useApiService = () => {
-	const [apiService] = useState(new ApiService());
+	const authToken = useSelector((state) =>state.auth.token);
+	const apiService = useMemo(()=>new ApiService(authToken),[authToken]);
 	const [statusApi, setStatusApi] = useState("idle");
 	const isMountedRef = useRef(null);
 
