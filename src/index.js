@@ -31,12 +31,20 @@ const rootReducer = combineReducers({
 	activeProject: activeProjectReducer,
 	activeProjectBeacons: activeProjectBeaconsReducer,
 	bimViewer: bimViewerReducer,
-	activeProjectModel:  activeProjectModelReducer,
+	activeProjectModel: activeProjectModelReducer,
 	activeProjectItem: activeProjectItemReducer,
 	activeProjectTrackedUser: activeProjectTrackedUserReducer,
 });
-
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+
+//check if the Bimplus Environment Server value is valid
+if (
+	process.env.REACT_APP_BIMPLUS_ENVIRONMENT !== "stage" &&
+	process.env.REACT_APP_BIMPLUS_ENVIRONMENT !== "dev" &&
+	process.env.REACT_APP_BIMPLUS_ENVIRONMENT !== "prod"
+) {
+	throw new Error("REACT_APP_BIMPLUS_ENVIRONMENT  environment Variable is set to invalid value");
+}
 
 const app = (
 	<React.StrictMode>

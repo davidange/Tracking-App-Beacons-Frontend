@@ -1,17 +1,19 @@
 import * as WebSdk from "bimplus-websdk";
+/**
+ * Class representing the information necesary for managing the Bimplus API.
+ */
 export default class ApiService {
 	api = null;
 	actTeamId;
 	actTeamSlug;
 	actProject;
+	
 	constructor() {
-		const environment = "stage";
-		this.api = new WebSdk.Api(WebSdk.createDefaultConfig(environment));
+		this.api = new WebSdk.Api(WebSdk.createDefaultConfig(process.env.REACT_APP_BIMPLUS_ENVIRONMENT));
 	}
 
-	authorize(email = "david.angeles@tum.de", password = "701e6a33f0A") {
-		//let appId = '5F43560D-9B0C-4F3C-85CB-B5721D098F7B';
-		let appId = "6CBF3DB2F6FE4E54963C7C6D9E306FE8";
+	authorize(email = process.env.REACT_APP_BIMPLUS_EMAIL, password = process.env.REACT_APP_BIMPLUS_PASSWORD) {
+		let appId = process.env.REACT_APP_BIMPLUS_APP_KEY;
 		return this.api.authorize
 			.post(email, password, appId)
 			.then((data) => {

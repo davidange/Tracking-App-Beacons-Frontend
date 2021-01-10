@@ -4,7 +4,6 @@ import useApiService from "../useApiService";
 import ExplorerService from "./ExplorerService";
 import { useSelector, useDispatch } from "react-redux";
 
-const environment = "stage";
 const useBimplusExplorer = (teamId, projectId, domElementId) => {
 	const [apiService, statusApi] = useApiService();
 	// eslint-disable-next-line no-unused-vars
@@ -22,7 +21,7 @@ const useBimplusExplorer = (teamId, projectId, domElementId) => {
 	//setup Explorer
 	useEffect(() => {
 		if (statusApi === "success" && apiService.isAuthorized()) {
-			setExplorerService(new ExplorerService(apiService, domElementId, environment));
+			setExplorerService(new ExplorerService(apiService, domElementId, process.env.REACT_APP_BIMPLUS_ENVIRONMENT));
 			setIsExplorerLoaded(true);
 			console.log("Explorer has been Set up");
 		}

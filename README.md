@@ -7,9 +7,14 @@ Environment Variable | Description
 --- | --- 
 `REACT_APP_SOCKET_SERVER_URL` | URL of Socket Server For Real Time updates 
 `REACT_APP_BACKEND_SERVER_URL` | URL of API Server.
-
+`REACT_APP_BIMPLUS_EMAIL` |  Email of Bimplus Account
+`REACT_APP_BIMPLUS_PASSWORD` | Password of Bimplus Account
+`REACT_APP_BIMPLUS_APP_KEY` | API Key of Bimplus
+`REACT_APP_BIMPLUS_ENVIRONMENT` | Environment of Bimplus, Depending on selected, is the server that the API will comunicate to (stage, dev or prod) 
 *Note:
 Set them up inside a .env.local file at the root location if the server will be run locally.*
+*Note:
+Currently, Email, Password and API Key *ARE* exposed, therefore be sure to run this server locally only or be consious that this credentials can obtained by the client.
 
 ## Available Scripts
 
